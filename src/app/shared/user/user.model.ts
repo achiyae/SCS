@@ -1,15 +1,12 @@
-import { Injectable } from '@angular/core';
-import {Domain} from './domain.model';
-import {Annotation} from './annotation.model';
+import {Domain} from '../domain.model';
+import {Annotation} from '../annotation.model';
 
-@Injectable()
-export class UserService {
+export class User {
   private code: string;
   private phase: 0;
   private domain: Domain;
   private annotations: Annotation;
-
-  constructor(public email: string) { }
+  private email: string;
 
   getPhase() {
     return this.phase;
