@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": null,
+    "password": null,
+    "database": "./database.sqlite",
+    "dialect": "sqlite"
+  },
+  "production": {
+    "username": "DATABASE_USERNAME",
+    "password": "DATABASE_PASSWORD",
+    "database": "DATABASE_NAME",
+    "host": "PRODUCTION_DATABASE_URL",
+    "dialect": "postgres",
+    "port": "DATABASE_PORT"
+  }
+}

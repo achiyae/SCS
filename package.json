@@ -1,4 +1,5 @@
 {
+  "main": "server/app.js",
   "name": "scs",
   "version": "0.0.0",
   "license": "MIT",
@@ -23,10 +24,13 @@
     "@angular/router": "^5.0.0",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
+    "errorhandler": "^1.5.0",
+    "express": "^4.16.2",
     "orm": "^4.0.2",
     "rxjs": "^5.5.2",
-    "sqlite": "^2.9.0",
-    "zone.js": "^0.8.14"
+    "sequelize": "^4.28.6",
+    "sqlite3": "^3.1.13",
+    "zone.js": "^0.8.19"
   },
   "devDependencies": {
     "@angular/cli": "1.6.2",
