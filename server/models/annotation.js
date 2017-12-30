@@ -1,6 +1,6 @@
 "use strict";
-var User = require("./user");
-var Requirement = require("./requirement");
+/*var User = require("./user");
+var Requirement = require("./requirement");*/
 
 module.exports = function(sequelize, DataTypes) {
   var Annotation = sequelize.define('annotation', {
@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: User,
+        model: 'users',
         key: 'email'
       }
     },
@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: Requirement,
+        model: 'requirements',
         key: 'id'
       }
     }

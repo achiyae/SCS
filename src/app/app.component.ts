@@ -1,6 +1,5 @@
-import {Component, Input, Output} from '@angular/core';
+import {Component} from '@angular/core';
 import {OrmService} from './shared/orm.service';
-import * as orm from 'orm';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +8,5 @@ import * as orm from 'orm';
   providers: [OrmService]
 })
 export class AppComponent {
-  private user: orm.model;
-
-  constructor(private ormService: OrmService) { }
-
-  userChanged(user: orm.model) {
-    this.user = user;
-  }
+  constructor(private db: OrmService) { }
 }

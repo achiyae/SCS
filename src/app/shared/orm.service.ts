@@ -1,31 +1,56 @@
-import { Injectable } from '@angular/core';
-import * as orm from 'orm';
-// import * as sqlite from 'sqlite3';
+import {EventEmitter, Injectable, Output} from '@angular/core';
+
+export interface Domain {
+  name: string;
+  requirements: Requirement[];
+}
+
+export interface User {
+  email: string;
+  code: string;
+  phase: number;
+  domain: Domain;
+  annotations: Annotation[];
+}
+
+export interface Requirement {
+  id: number;
+  description: string;
+  domain: Domain;
+}
+
+export interface Annotation {
+  position: number;
+  length: number;
+  user: User;
+  requirement: Requirement;
+}
 
 @Injectable()
 export class OrmService {
-  private db;
-  private sqlite;
-  private userModel: orm.model;
-  private requirementModel: orm.model;
-  private domainModel: orm.model;
-  private annotationModel: orm.model;
+  public user: User;
+  @Output() userChanged = new EventEmitter<User>();
+  public domains: Domain[];
+  public domain: Domain;
+  @Output() domainChanged = new EventEmitter<Domain>();
 
   constructor() {
-
+    // TODO: DB - init connection, get domains.
   }
 
   getUser(email: string) {
-    return this.userModel.get(email, function(err, user) {
-      if (!err) { return user; } });
+    // TODO: db stuff;
+    // this.user = ...;
+    this.userChanged.emit(this.user);
   }
 
-  addUser(email: string) {
-    return this.userModel.create({ email }, function(err, user) {
-      if (err) {
-        throw err;
-      }
-      return user;
-    });
+  getDomains() {
+    // TODO: db stuff;
+    // this.domains = ...;
+  }
+
+  selectDomain(domain_name: string) {
+    this.domain = this.domains[domain_name];
+    this.domainChanged.emit(this.domain);
   }
 }

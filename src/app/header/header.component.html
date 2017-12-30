@@ -6,18 +6,21 @@
 
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="#">Recipes</a></li>
-        <li><a href="#">Shopping List</a></li>
-        <li class="dropdown" appDropdown>
-          <a href="#" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
+        <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+        <li><a routerLink="/instructions" routerLinkActive="active">Instructions</a></li>
+        <li><a routerLink="/domain" routerLinkActive="active">Domain</a></li>
+        <li><a routerLink="/code" routerLinkActive="active">Code</a></li>
+        <li class="dropdown">
+          <a routerLink="annotate/0" class="dropdown-toggle" routerLinkActive="inactive" role="button">
+            Annotate <span class="caret"></span>
+          </a>
           <ul class="dropdown-menu">
-            <li><a href="#">Save Data</a></li>
-            <li><a href="#">Fetch Data</a></li>
+            <li><a routerLink="annotate/id" routerLinkActive="inactive">Requirement id</a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" (click)="onLoginAction()">Login</a></li>
+        <li><a routerLink="/user">User</a></li>
       </ul>
     </div>
   </div>

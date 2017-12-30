@@ -1,5 +1,5 @@
 "use strict";
-var Domain = require("./domain");
+/*var Domain = require("./domain");*/
 
 module.exports = function(sequelize, DataTypes) {
   var Requirement = sequelize.define('requirement', {
@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: Domain,
+        model: 'domains',
         key: 'name'
       }
     }

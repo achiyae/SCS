@@ -1,74 +1,52 @@
 var models = require("../models"); //place on top of the file</pre>
 
-exports.getusers = function(req, res) {
-  models.User.findAll().then(function(users){
-    res.json(users);
-  });
+exports.getuser = function(req, res) {
+  models.user.findOrCreate({where: {email: req.query.email }})
+    .spread(function(user, created) {
+      res.json(user);
+      if (created) {
+        console.log('Created new user: ' + user.email);
+      }
+    });
 };
 
-exports.saveusers = function(req, res) {
-  models.User.create({
-    email: req.body.email
-  }).then(function(users){
-    res.json(users.dataValues);
-  }).catch(function(error){
-    console.log("ops: " + error);
-    res.status(500).json({ error: 'error' });
-  });
-};
-
-exports.getdomains = function(req, res) {
-  models.Domain.findAll().then(function(domains){
-    res.json(domains);
-  });
-};
-
-exports.savedomains = function(req, res) {
-  models.Domain.create({
-    name: req.body.name
-  }).then(function(domains){
-    res.json(domains.dataValues);
-  }).catch(function(error){
-    console.log("ops: " + error);
-    res.status(500).json({ error: 'error' });
-  });
+exports.getdomain = function(req, res) {
+  console.log('body name = ' + req.query.name);
+  models.domain.findById(req.query.name)
+    .then(function(domain){
+      res.json(domain);
+    })
+    .catch(function(error){
+      console.log("ops: " + error);
+      res.status(500).json({ error: 'error' });
+    });
 };
 
 exports.getrequirements = function(req, res) {
-  models.Requirement.findAll().then(function(requirements){
-    res.json(requirements);
-  });
-};
-
-exports.saverequirements = function(req, res) {
-  models.Requirement.create({
-    id: req.body.id,
-    description: req.body.description,
-    domain_id: req.body.domain_id
-  }).then(function(requirements){
-    res.json(requirements.dataValues);
-  }).catch(function(error){
-    console.log("ops: " + error);
-    res.status(500).json({ error: 'error' });
-  });
+  models.requirement.findAll({ Where: { domain_id: req.query.domain_id }})
+    .then(function(requirements){
+      res.json(requirements);
+    });
 };
 
 exports.getannotations = function(req, res) {
-  models.Annotation.findAll().then(function(annotations){
-    res.json(annotations);
-  });
+  models.annotation.findAll({ Where: { user_id: req.query.user_id, requirement_id: req.query.requirement_id } })
+    .then(function(annotations){
+      res.json(annotations);
+    });
 };
 
-exports.saveannotations = function(req, res) {
-  models.Annotation.create({
+exports.saveannotation = function(req, res) {
+  models.annotation.create({
     position: req.body.position,
     length: req.body.length,
     user_id: req.body.user_id,
     requirement_id: req.body.requirement_id
-  }).then(function(annotations){
-    res.json(annotations.dataValues);
+  }).then(function(annotation){
+    res.json(annotation.dataValues);
   }).catch(function(error){
     console.log("ops: " + error);
     res.status(500).json({ error: 'error' });
   });
 };
+
