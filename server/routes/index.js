@@ -11,7 +11,6 @@ exports.getuser = function(req, res) {
 };
 
 exports.getdomain = function(req, res) {
-  console.log('body name = ' + req.query.name);
   models.domain.findById(req.query.name)
     .then(function(domain){
       res.json(domain);

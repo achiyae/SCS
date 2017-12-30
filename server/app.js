@@ -61,9 +61,6 @@ app.route('/domain')
 app.route('/requirements')
   .get(routes.getrequirements);
 app.route('/annotation')
-  .get(routes.getannotations)
   .post(routes.saveannotation);
-/*
-app.route('/init')
-  .post(routes.init);
-*/
+app.route('/annotations')
+  .get(routes.getannotations);

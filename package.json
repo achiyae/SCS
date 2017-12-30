@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "npm run ng",
-    "start": "set NODE_ENV=dev && ng serve",
+    "start": "set NODE_ENV=development && ng serve",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
