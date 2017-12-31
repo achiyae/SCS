@@ -1,40 +1,48 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 
 export interface Domain {
-  name: string;
-  requirements: Requirement[];
+  readonly name: string;
+  readonly requirements: Requirement[];
 }
 
 export interface User {
-  email: string;
+  readonly email: string;
   code: string;
   phase: number;
-  domain: Domain;
-  annotations: Annotation[];
+  readonly domain: Domain;
+  readonly annotations: Annotation[];
 }
 
 export interface Requirement {
-  id: number;
-  description: string;
-  domain: Domain;
+  readonly id: number;
+  readonly description: string;
+  readonly domain: Domain;
 }
 
 export interface Annotation {
-  position: number;
-  length: number;
-  user: User;
-  requirement: Requirement;
+  readonly position: number;
+  readonly length: number;
+  readonly user: User;
+  readonly requirement: Requirement;
 }
 
 @Injectable()
 export class OrmService {
   public user: User;
-  @Output() userChanged = new EventEmitter<User>();
-  public domains: Domain[];
   public domain: Domain;
+  private domains: {[name: string]: Domain};
+  @Output() userChanged = new EventEmitter<User>();
   @Output() domainChanged = new EventEmitter<Domain>();
 
   constructor() {
+    this.domains = { 'ATM': {
+        name: 'ATM',
+        requirements: [
+          {id: 1, description: 'Requirement 1', domain: this.domain},
+          {id: 2, description: 'Requirement 2', domain: this.domain}
+        ]
+      }};
+    this.selectDomain('ATM');
     // TODO: DB - init connection, get domains.
   }
 

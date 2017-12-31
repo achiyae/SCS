@@ -11,6 +11,8 @@ import { InstructionsComponent } from './instructions/instructions.component';
 import { DomainComponent } from './domain/domain.component';
 import { CodeComponent } from './code/code.component';
 import { AnnotateComponent } from './annotate/annotate.component';
+import {DropdownDirective} from './shared/dropdown.directive';
+import { AnnotationsComponent } from './header/annotations/annotations.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -31,6 +33,8 @@ const appRoutes: Routes = [
     DomainComponent,
     CodeComponent,
     AnnotateComponent,
+    DropdownDirective,
+    AnnotationsComponent,
   ],
   imports: [
     BrowserModule,

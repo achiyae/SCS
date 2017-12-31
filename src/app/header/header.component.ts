@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Domain, OrmService} from '../shared/orm.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {Domain, OrmService, Requirement} from '../shared/orm.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +7,7 @@ import {Domain, OrmService} from '../shared/orm.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  domain: Domain;
+  @Input() private domain: Domain;
 
   constructor(private orm: OrmService) {
     this.domain = this.orm.domain;
@@ -18,6 +18,4 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  onLoginAction() {}
 }
