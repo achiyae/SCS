@@ -13,13 +13,17 @@ import { CodeComponent } from './code/code.component';
 import { AnnotateComponent } from './annotate/annotate.component';
 import {DropdownDirective} from './shared/dropdown.directive';
 import { AnnotationsComponent } from './header/annotations/annotations.component';
+import { CodeAnnotationComponent } from './annotate/code-annotation/code-annotation.component';
+import { RequirementComponent } from './annotate/requirement/requirement.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'instructions', component: InstructionsComponent },
   { path: 'domain', component: DomainComponent },
   { path: 'code', component: CodeComponent },
-  { path: 'annotate/:id', component: AnnotateComponent },
+  { path: 'annotate', component: AnnotateComponent, children: [
+    {path: ':id', component: CodeAnnotationComponent},
+   ] },
   { path: 'user', component: UserComponent },
 ];
 
@@ -35,6 +39,8 @@ const appRoutes: Routes = [
     AnnotateComponent,
     DropdownDirective,
     AnnotationsComponent,
+    CodeAnnotationComponent,
+    RequirementComponent,
   ],
   imports: [
     BrowserModule,

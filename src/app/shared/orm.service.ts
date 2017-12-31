@@ -2,7 +2,7 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 
 export interface Domain {
   readonly name: string;
-  readonly requirements: Requirement[];
+  readonly requirements: {[id: string]: Requirement};
 }
 
 export interface User {
@@ -14,15 +14,13 @@ export interface User {
 }
 
 export interface Requirement {
-  readonly id: number;
+  readonly id: string;
   readonly description: string;
-  readonly domain: Domain;
 }
 
 export interface Annotation {
   readonly position: number;
   readonly length: number;
-  readonly user: User;
   readonly requirement: Requirement;
 }
 
@@ -37,11 +35,10 @@ export class OrmService {
   constructor() {
     this.domains = { 'ATM': {
         name: 'ATM',
-        requirements: [
-          {id: 1, description: 'Requirement 1', domain: this.domain},
-          {id: 2, description: 'Requirement 2', domain: this.domain}
-        ]
-      }};
+        requirements: {
+          '1': {id: '1', description: 'Requirement 1'},
+          '2': {id: '2', description: 'Requirement 2'}}
+    }};
     this.selectDomain('ATM');
     // TODO: DB - init connection, get domains.
   }

@@ -7,7 +7,7 @@ import {Requirement} from '../../shared/orm.service';
   styleUrls: ['./annotations.component.css']
 })
 export class AnnotationsComponent implements OnInit {
-  @Input() private req: Requirement;
+  @Input() requirement_id: string;
 
   constructor() { }
 

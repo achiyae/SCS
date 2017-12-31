@@ -39,9 +39,10 @@ exports.saveannotation = function(req, res) {
   models.annotation.create({
     position: req.body.position,
     length: req.body.length,
-    user_id: req.body.user_id,
-    requirement_id: req.body.requirement_id
-  }).then(function(annotation){
+    user: req.body.user_id,
+    requirement: req.body.requirement_id
+  },{include: [models.user, models.requirement]})
+    .then(function(annotation){
     res.json(annotation.dataValues);
   }).catch(function(error){
     console.log("ops: " + error);

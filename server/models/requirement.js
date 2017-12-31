@@ -1,18 +1,9 @@
 "use strict";
-/*var Domain = require("./domain");*/
 
 module.exports = function(sequelize, DataTypes) {
   var Requirement = sequelize.define('requirement', {
-    id: {type: DataTypes.INTEGER, primaryKey: true},
-    description: DataTypes.TEXT,
-    domain_id: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      references: {
-        model: 'domains',
-        key: 'name'
-      }
-    }
+    id: {type: DataTypes.STRING, primaryKey: true},
+    description: DataTypes.TEXT
   });
   return Requirement;
 };

@@ -9,7 +9,7 @@ var sequelize = new Sequelize(config.database, config.username, config.password,
 var db = {};
 
 fs.readdirSync(__dirname).filter(function(file) {
-  return (file.indexOf(".") !== 0) && (file !== "index.js") && (file !== "data.js");
+  return (file.indexOf(".") !== 0) && (file !== "index.js") && (file !== "data.js") && (file !== "associations.js");
 }).forEach(function(file) {
   var model = sequelize["import"](path.join(__dirname, file));
   db[model.name] = model;
@@ -20,6 +20,9 @@ Object.keys(db).forEach(function(modelName) {
     db[modelName].associate(db);
   }
 });
+
+var associations = require('./associations');
+associations(sequelize);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

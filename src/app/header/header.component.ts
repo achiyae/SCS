@@ -7,12 +7,15 @@ import {Domain, OrmService, Requirement} from '../shared/orm.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  @Input() private domain: Domain;
+  private domain: Domain;
+  private requirements: string[];
 
   constructor(private orm: OrmService) {
     this.domain = this.orm.domain;
+    this.requirements = Object.keys(this.domain.requirements);
     this.orm.domainChanged.subscribe((domain) => {
       this.domain = domain;
+      this.requirements = Object.keys(this.domain.requirements);
     });
   }
 

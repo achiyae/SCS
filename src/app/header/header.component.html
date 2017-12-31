@@ -12,13 +12,12 @@
         <li><a style="cursor: pointer" routerLink="/code" routerLinkActive="active">Code</a></li>
         <li class="dropdown" appDropdown>
           <a style="cursor: pointer" class="dropdown-toggle" role="button">Annotate <span class="caret"></span></a>
-          <ul class="dropdown-menu" routerLink="/instructions/instructions" routerLinkActive="inactive">
-            <li><a style="cursor: pointer" routerLink="/instructions/instructions" routerLinkActive="active">Annotation instructions</a></li>
+          <ul class="dropdown-menu" routerLink="" routerLinkActive="inactive">
+            <li><a style="cursor: pointer" [routerLink]="['/annotate', 0]" routerLinkActive="active">Annotation instructions</a></li>
             <app-annotations
-              *ngFor="let [req] in domain.requirements"
-            ></app-annotations>
-            <!--<li><a href="#">Requirement 1</a></li>
-            <li><a href="#">Requirement 2</a></li>-->
+              *ngFor="let req of requirements"
+              [requirement_id]="req">
+            </app-annotations>
           </ul>
         </li>
       </ul>
