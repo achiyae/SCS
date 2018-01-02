@@ -30,5 +30,5 @@ module.exports = function(sequelize) {
       domain, { include: [ Requirement ] })
   });
 
-  Group.bulkCreate([{name: 'users'}, {name: 'admins'}]);
+  Group.bulkCreate([{name: 'users'}, {name: 'reviewer'}, {name: 'admins'}]);
 };
