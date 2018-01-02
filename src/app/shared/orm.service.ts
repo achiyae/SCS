@@ -11,7 +11,8 @@ export interface User {
   code: string;
   phase: number;
   readonly domain: Domain;
-  readonly annotations: Annotation[];
+  readonly annotations: {[req_id: string]: Annotation[]};
+  readonly phases: {[name: string]: boolean};
 }
 
 export interface Requirement {
@@ -22,7 +23,12 @@ export interface Requirement {
 export interface Annotation {
   readonly position: number;
   readonly length: number;
-  readonly requirement: Requirement;
+  readonly requirement_id: string;
+}
+
+export interface Phase {
+  readonly name: string;
+  readonly done: boolean;
 }
 
 @Injectable()
@@ -59,5 +65,9 @@ export class OrmService {
   selectDomain(domain_name: string) {
     this.domain = this.domains[domain_name];
     this.domainChanged.emit(this.domain);
+  }
+
+  addAnnotation(annotation: Annotation) {
+
   }
 }
