@@ -2,6 +2,7 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 
 export interface Domain {
   readonly name: string;
+  readonly description: string;
   readonly requirements: {[id: string]: Requirement};
 }
 
@@ -35,6 +36,7 @@ export class OrmService {
   constructor() {
     this.domains = { 'ATM': {
         name: 'ATM',
+        description: '',
         requirements: {
           '1': {id: '1', description: 'Requirement 1'},
           '2': {id: '2', description: 'Requirement 2'}}

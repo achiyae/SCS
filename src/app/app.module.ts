@@ -15,6 +15,8 @@ import {DropdownDirective} from './shared/dropdown.directive';
 import { AnnotationsComponent } from './header/annotations/annotations.component';
 import { CodeAnnotationComponent } from './annotate/code-annotation/code-annotation.component';
 import { RequirementComponent } from './annotate/requirement/requirement.component';
+import { RequirementsComponent } from './domain/requirements/requirements.component';
+import { DoneComponent } from './done/done.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -41,6 +43,8 @@ const appRoutes: Routes = [
     AnnotationsComponent,
     CodeAnnotationComponent,
     RequirementComponent,
+    RequirementsComponent,
+    DoneComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@ module.exports = function(sequelize) {
   var domains = [
     {
       name: 'ATM',
+      description: '',
       requirements: [
         {id: '1', description: 'requirement 1', domain_id: 'ATM'},
         {id: '2', description: 'requirement 2', domain_id: 'ATM'}
@@ -18,6 +19,7 @@ module.exports = function(sequelize) {
     },
     {
       name: 'Pacman',
+      description: '',
       requirements: []
     }
    ];

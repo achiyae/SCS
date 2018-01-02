@@ -14,6 +14,6 @@ export class HomeComponent implements OnInit {
   }
 
   onNext() {
-    this.router.navigate(['/user']);
+    this.router.navigate(['/instructions']);
   }
 }
