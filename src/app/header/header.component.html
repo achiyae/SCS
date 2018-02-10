@@ -1,15 +1,16 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a href="#" class="navbar-brand">SCS</a>
+      <a href="#" class="navbar-brand ">SCA</a>
     </div>
 
-    <div class="navbar-default">
+    <div class="navbar-inverse">
       <ul class="nav navbar-nav">
         <li><a style="cursor: pointer" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-        <li><a style="cursor: pointer" routerLink="/instructions" routerLinkActive="active">Instructions</a></li>
-        <li><a style="cursor: pointer" routerLink="/domain" routerLinkActive="active">Domain</a></li>
-        <li><a style="cursor: pointer" routerLink="/code" routerLinkActive="active">Code</a></li>
+        <li><a style="cursor: pointer" routerLink="/instructions" routerLinkActive="active">Instructions --></a></li>
+        <li><a style="cursor: pointer" routerLink="/user">User --></a></li>
+        <li><a style="cursor: pointer" routerLink="/domain" routerLinkActive="active">Domain --></a></li>
+        <li><a style="cursor: pointer" routerLink="/code" routerLinkActive="active">Code --></a></li>
         <li class="dropdown" appDropdown>
           <a style="cursor: pointer" class="dropdown-toggle" role="button">Annotate <span class="caret"></span></a>
           <ul class="dropdown-menu" routerLink="" routerLinkActive="inactive">
@@ -21,9 +22,10 @@
           </ul>
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a style="cursor: pointer" routerLink="/user">User</a></li>
-      </ul>
+      <!--<ul class="nav navbar-nav navbar-right">-->
+        <!--<li><a style="cursor: pointer" routerLink="/user">User</a></li>-->
+      <!--</ul>-->
     </div>
   </div>
 </nav>
+
