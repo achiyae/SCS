@@ -9,7 +9,6 @@ export interface Domain {
 export interface User {
   readonly email: string;
   code: string;
-  phase: number;
   readonly domain: Domain;
   readonly annotations: {[req_id: string]: Annotation[]};
   readonly phases: {[name: string]: boolean};
@@ -17,6 +16,7 @@ export interface User {
 
 export interface Requirement {
   readonly id: string;
+  readonly name: string;
   readonly description: string;
 }
 
@@ -34,7 +34,6 @@ export interface Phase {
 @Injectable()
 export class OrmService {
   public user: User;
-  public domain: Domain;
   private domains: {[name: string]: Domain};
   @Output() userChanged = new EventEmitter<User>();
   @Output() domainChanged = new EventEmitter<Domain>();
@@ -44,27 +43,29 @@ export class OrmService {
         name: 'ATM',
         description: '',
         requirements: {
-          '1': {id: '1', description: 'Requirement 1'},
-          '2': {id: '2', description: 'Requirement 2'}}
+          '1': {id: '1', name: '', description: 'Requirement 1'},
+          '2': {id: '2', name: '', description: 'Requirement 2'}}
     }};
-    this.selectDomain('ATM');
-    // TODO: DB - init connection, get domains.
   }
 
   getUser(email: string) {
-    // TODO: db stuff;
-    // this.user = ...;
+    // TODO: db stuff (get user from db)
+    // this.user = db.getUser();
+    if (!this.user) {
+      this.user = {
+        email: email,
+        code: '',
+        domain: this.domains['ATM'],
+        annotations: {},
+        phases: {}
+      };
+    }
     this.userChanged.emit(this.user);
   }
 
   getDomains() {
     // TODO: db stuff;
     // this.domains = ...;
-  }
-
-  selectDomain(domain_name: string) {
-    this.domain = this.domains[domain_name];
-    this.domainChanged.emit(this.domain);
   }
 
   addAnnotation(annotation: Annotation) {

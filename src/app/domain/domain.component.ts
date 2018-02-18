@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Domain, OrmService, Requirement} from '../shared/orm.service';
+import {Domain, OrmService, Requirement, User} from '../shared/orm.service';
 
 @Component({
   selector: 'app-domain',
@@ -8,14 +8,16 @@ import {Domain, OrmService, Requirement} from '../shared/orm.service';
   styleUrls: ['./domain.component.css']
 })
 export class DomainComponent implements OnInit {
-  @Input() domain: Domain;
+  @Input() user: User;
+  private domain: Domain;
   private requirements: Requirement[];
 
   constructor(private orm: OrmService,
               private router: Router) { }
 
   ngOnInit() {
-    this.domain = this.orm.domain;
+    this.user = this.orm.user;
+    this.domain = this.user.domain;
     this.requirements = Object.values(this.domain.requirements);
     this.orm.domainChanged.subscribe(function(domain) {
       this.domain = domain;

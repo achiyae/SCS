@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Domain, OrmService, Requirement} from '../shared/orm.service';
+import {User, OrmService, Requirement} from '../shared/orm.service';
 
 @Component({
   selector: 'app-header',
@@ -7,15 +7,12 @@ import {Domain, OrmService, Requirement} from '../shared/orm.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  private domain: Domain;
-  private requirements: string[];
+  private user: User;
 
   constructor(private orm: OrmService) {
-    this.domain = this.orm.domain;
-    this.requirements = Object.keys(this.domain.requirements);
-    this.orm.domainChanged.subscribe((domain) => {
-      this.domain = domain;
-      this.requirements = Object.keys(this.domain.requirements);
+    this.user = this.orm.user;
+    this.orm.userChanged.subscribe((user) => {
+      this.user = user;
     });
   }
 
