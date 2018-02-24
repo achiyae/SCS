@@ -16,7 +16,7 @@ export class AnnotateComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.requirements = Object.keys(this.orm.domain.requirements);
+    this.requirements = Object.keys(this.orm.domains.requirements);
     this.requirement_id = this.route.snapshot.params['id'];
     this.route.params.subscribe(
       (params: Params) => {
