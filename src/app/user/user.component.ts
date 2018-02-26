@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 })
 export class UserComponent implements OnInit {
   @Input() email: string;
+  private next_disabled = true;
 
   constructor(private db: OrmService, private router: Router) { }
 

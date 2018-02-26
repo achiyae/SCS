@@ -1,6 +1,6 @@
 import {Component, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {OrmService, Requirement} from '../shared/orm.service';
+import {OrmService} from '../shared/orm.service';
 
 @Component({
   selector: 'app-annotate',
@@ -16,7 +16,7 @@ export class AnnotateComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.requirements = Object.keys(this.orm.domain.requirements);
+    this.requirements = Object.keys(this.orm.user.domain.requirements);
     this.requirement_id = this.route.snapshot.params['id'];
     this.route.params.subscribe(
       (params: Params) => {
