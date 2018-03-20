@@ -86,7 +86,7 @@ export class OrmService {
     }};
   }
 
-  getUser(email: string) {
+  setUserEmail(email: string) {
     // TODO: db stuff (get user from db)
     // this.user = db.getUser();
     if (!this.user) {
@@ -97,6 +97,15 @@ export class OrmService {
         annotations: {},
         phases: {}
       };
+    }
+    this.userChanged.emit(this.user);
+  }
+
+  setUserCode(code: string) {
+    // TODO: db stuff (get user from db)
+    // this.user = db.getUser();
+    if (!this.user) {
+      this.user.code = code;
     }
     this.userChanged.emit(this.user);
   }
