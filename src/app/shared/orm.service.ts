@@ -86,7 +86,7 @@ export class OrmService {
     }};
   }
 
-  setUserEmail(email: string) {
+  getUser(email: string) {
     // TODO: db stuff (get user from db)
     // this.user = db.getUser();
     if (!this.user) {
@@ -98,21 +98,20 @@ export class OrmService {
         phases: {}
       };
     }
-    this.userChanged.emit(this.user);
+    this.userChanged.emit(this.user); // Why?
   }
 
-  setUserCode(code: string) {
-    // TODO: db stuff (get user from db)
-    // this.user = db.getUser();
-    if (!this.user) {
-      this.user.code = code;
-    }
-    this.userChanged.emit(this.user);
+  setUserCode(coder: string) {
+      this.user.code = coder;
   }
 
   getDomains() {
     // TODO: db stuff;
     // this.domains = ...;
+  }
+
+  getUserCode() {
+    return this.user.code;
   }
 
   addAnnotation(annotation: Annotation) {

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OrmService, Requirement} from '../../shared/orm.service';
+import {OrmService, Requirement, User} from '../../shared/orm.service';
 
 @Component({
   selector: 'app-code-annotation',
@@ -8,10 +8,15 @@ import {OrmService, Requirement} from '../../shared/orm.service';
 })
 export class CodeAnnotationComponent implements OnInit {
   @Input() requirement: Requirement;
+  @Input() user: User;
+  a: string;
 
   constructor(private orm: OrmService) { }
 
   ngOnInit() {
+    this.user = this.orm.user;
+    console.log(this.orm.getUserCode());
+    this.a = this.orm.getUserCode();
   }
 
 }

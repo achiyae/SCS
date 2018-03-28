@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
   }
 
   onLogin() {
-    this.db.setUserEmail(this.email);
+    this.db.getUser(this.email);
     this.router.navigate(['/domain']);
   }
 
