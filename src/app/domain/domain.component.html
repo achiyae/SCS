@@ -17,8 +17,12 @@
   </div>
 </div>
 <hr>
-<app-requirements *ngFor="let req of requirements" [requirement]="req"></app-requirements>
-<hr>
+<div class="row">
+  <div class="col-xs-12">
+    <p><app-requirements *ngFor="let req of requirements" [requirement]="req"></app-requirements></p>
+  </div>
+</div>
+
 <hr>
 <div class="row">
   <div class="col-xs-12">

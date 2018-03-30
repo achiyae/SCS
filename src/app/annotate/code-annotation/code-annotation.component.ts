@@ -17,6 +17,7 @@ export class CodeAnnotationComponent implements OnInit {
     this.user = this.orm.user;
     console.log(this.orm.getUserCode());
     this.a = this.orm.getUserCode();
+    console.log(this.a);
   }
 
 }

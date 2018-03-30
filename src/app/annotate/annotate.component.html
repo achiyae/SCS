@@ -1,23 +1,20 @@
 <h2>Code Annotation</h2>
 <hr>
-<div class="row" *ngIf="requirement_id == 0"><!-- TODO complete condition -->
+<div class="row">
+  <p class="col-xs-12">
+    <p>
+      In the following steps you are required to mark the place in ... for each requirement.
+    </p>
+  <p>
+    <app-requirements *ngFor="let req of requirements" [requirement]="req"></app-requirements>
+  </p>
+</div>
+<hr>
+<div class="row">
   <div class="col-xs-12">
-    In the following steps you are required to mark the place in ... for each requirement.
+    <p>{{this.a}}</p>
   </div>
 </div>
-<hr>
-<div class="row" *ngIf="requirement_id != 0">
-  <div class="col-xs-3 col-sm-2">
-    <div class="list-group">
-      <app-requirement *ngFor="let req of requirements; let i = index" [requirement_id]="req" [index]="i">
-      </app-requirement>
-    </div>
-  </div>
-  <div class="col-xs-12 col-sm-4">
-    <router-outlet></router-outlet>
-  </div>
-</div>
-<hr>
 <div class="row">
   <div class="col-xs-12">
     <button class="btn btn-primary" (click)="onNext()">Next</button>
