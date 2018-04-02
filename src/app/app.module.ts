@@ -17,6 +17,7 @@ import { CodeAnnotationComponent } from './annotate/code-annotation/code-annotat
 import { RequirementComponent } from './annotate/requirement/requirement.component';
 import { RequirementsComponent } from './domain/requirements/requirements.component';
 import { DoneComponent } from './done/done.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -45,6 +46,7 @@ const appRoutes: Routes = [
     RequirementComponent,
     RequirementsComponent,
     DoneComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
