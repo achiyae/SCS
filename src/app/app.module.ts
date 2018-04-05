@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { UserComponent } from './user/user.component';
@@ -18,6 +17,8 @@ import { RequirementComponent } from './annotate/requirement/requirement.compone
 import { RequirementsComponent } from './domain/requirements/requirements.component';
 import { DoneComponent } from './done/done.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+
+
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -51,7 +52,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
   ],
   providers: [],
   bootstrap: [AppComponent]

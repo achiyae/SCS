@@ -2,6 +2,7 @@ import {Component, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Domain, OrmService, Requirement, User} from '../shared/orm.service';
 
+
 @Component({
   selector: 'app-annotate',
   templateUrl: './annotate.component.html',
