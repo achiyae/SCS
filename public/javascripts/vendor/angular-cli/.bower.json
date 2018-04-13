@@ -1,0 +1,15 @@
+{
+  "name": "angular-cli",
+  "homepage": "https://github.com/angular/angular-cli",
+  "version": "6.0.0",
+  "_release": "6.0.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v6.0.0",
+    "commit": "f3720a7f0935a982429cfd7c486ea0b2abb088e0"
+  },
+  "_source": "https://github.com/angular/angular-cli.git",
+  "_target": "^6.0.0",
+  "_originalSource": "angular-cli",
+  "_direct": true
+}
