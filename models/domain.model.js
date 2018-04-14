@@ -1,6 +1,7 @@
+var express = require('express');
+var router = express.Router();
 var mongoose = require('mongoose')
-var mongoosePaginate = require('mongoose-paginate')
-
+//var mongoosePaginate = require('mongoose-paginate')
 
 var DomainSchema = new mongoose.Schema({
     name: { type:String, index: true },
@@ -8,8 +9,9 @@ var DomainSchema = new mongoose.Schema({
     requirements: [Requirement]
 })
 
-DomainSchema.plugin(mongoosePaginate)
+//DomainSchema.plugin(mongoosePaginate)
 const Domain = mongoose.model('Domain', DomainSchema)
+Domain.registerRouter(router, '/api/v1/');
 
 module.exports = Domain;
 
