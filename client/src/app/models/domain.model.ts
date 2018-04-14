@@ -1,4 +1,4 @@
-var Requirement = require('./requirement.model');
+import Requirement from './requirement.model';
 
 class Domain {
     _id:          string;

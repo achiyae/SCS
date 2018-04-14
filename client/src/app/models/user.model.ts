@@ -1,7 +1,7 @@
-var Annotation = require('./annotation.model');
-var Domain = require('./domain.model');
-var Group = require('./group.model');
-var Phase = require('./phase.model');
+import Annotation from './annotation.model';
+import Domain from './domain.model';
+import Group from './group.model';
+import Phase from './phase.model';
 
 class User {
   _id:         string;

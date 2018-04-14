@@ -1,9 +1,9 @@
-var Requirement = require('./requirement.model');
+import Requirement from './requirement.model';
 
 class Annotation {
     _id:         string;
-    position:    int;
-    length:      int;
+    position:    number;
+    length:      number;
     requirement: Requirement;
 }
 

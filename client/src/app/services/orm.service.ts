@@ -12,7 +12,7 @@ import Domain from '../models/domain.model';
 import Group from '../models/group.model';
 import Phase from '../models/phase.model';
 import Requirement from '../models/requirement.model';
-import User from '../models/User.model';
+import User from '../models/user.model';
 
 @Injectable()
 export class OrmService {
