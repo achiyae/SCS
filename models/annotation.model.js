@@ -1,14 +1,32 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose')
+var crud = require('crud'),
+    cm = require('crud-mongoose'),
+    mongoose = require('mongoose'),
+    Annotation = mongoose.model('Annotation', new mongoose.Schema({
+      position:    { type: Number, required: true },
+      length:      { type: Number, required: true },
+      requirement: { type: Requirement, required: true }
+    }));
 
-var AnnotationSchema = new mongoose.Schema({
-    position: Number,
-    length: Number,
-    requirement: Requirement
-})
+// All -------------------------------------------------------------------
+ 
+/* crud.entity('/annotation').Create()
+  .pipe(cm.createNew(Annotation)); */
 
-const Annotation = mongoose.model('Annotation', AnnotationSchema)
-Annotation.registerRouter(router, '/api/v1/');
+crud.entity('/annotation').Delete()
+    .pipe(cm.removeAll(Annotation));
+ 
+crud.entity('/annotation').Read()
+  .pipe(cm.findAll(Annotation))
+
+// One --------------------------------------------------------------------
+ 
+crud.entity('/annotation/:_id').Read()
+  .pipe(cm.findOne(Annotation))
+ 
+crud.entity('/annotation/:_id').Update()
+  .pipe(cm.updateOne(Annotation));
+ 
+crud.entity('/annotation/:_id').Delete()
+  .pipe(cm.removeOne(Annotation)); 
 
 module.exports = Annotation;

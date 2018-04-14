@@ -7,48 +7,23 @@ import { Injectable } from '@angular/core';
 
 import 'rxjs/add/operator/map';
 
-export interface Domain {
-  readonly name: string;
-  readonly description: string;
-  readonly requirements: {[id: string]: Requirement};
-}
-
-export interface User {
-  readonly email: string;
-  code: string;
-  readonly domain: Domain;
-  readonly annotations: {[req_id: string]: Annotation[]};
-  readonly phases: {[name: string]: boolean};
-}
-
-export interface Requirement {
-  readonly id: string;
-  readonly name: string;
-  readonly description: string;
-}
-
-export interface Annotation {
-  readonly position: number;
-  readonly length: number;
-  readonly requirement_id: string;
-}
-
-export interface Phase {
-  readonly name: string;
-  readonly done: boolean;
-}
+import Annotation from '../models/annotation.model';
+import Domain from '../models/domain.model';
+import Group from '../models/group.model';
+import Phase from '../models/phase.model';
+import Requirement from '../models/requirement.model';
+import User from '../models/User.model';
 
 @Injectable()
 export class OrmService {
-  private api_url = 'http://localhost:3000';
-  private userUrl = `${this.api_url}/api/user`;
+  private api_url = 'http://localhost:3000/api/';
   public user: User;
   @Output() domains: {[name: string]: Domain};
   @Output() userChanged = new EventEmitter<User>();
   @Output() domainChanged = new EventEmitter<Domain>();
 
   constructor(private http: HttpClient) {
-    this.domains = { 'ATM': {
+    /* this.domains = { 'ATM': {
         name: 'ATM',
         description: 'Key features: \n' +
         'The system is always on. \n' +
@@ -91,38 +66,38 @@ export class OrmService {
           '16': {id: '16', name: 'Requirement 6.1', description: 'End the session if one of the following happens: The operation ended successfully.'},
           '17': {id: '17', name: 'Requirement 6.2', description: 'End the session if one of the following happens: On any error (wrong PIN or invalid amount of money).'},
         }
-    }};
+    }};*/
   }
 
-  getUser(email: string) {
-    // TODO: db stuff (get user from db)
-    // this.user = db.getUser();
-    if (!this.user) {
-      this.user = {
-        email: email,
-        code: '',
-        domain: this.domains['ATM'],
-        annotations: {},
-        phases: {}
-      };
-    }
-    this.userChanged.emit(this.user); // Why?
+  create(type:String, data:any): Observable<any>{
+    //returns the observable of http post request 
+    return this.http.post(`${this.api_url+type}`, data);
   }
 
-  setUserCode(coder: string) {
-      this.user.code = coder;
+  read<T>(type:String): Observable<T[]> {
+    return this.http.get(this.api_url+type)
+    .map(res  => {
+      //Maps the response object sent from the server
+      return res["data"].docs as T[];
+    })
   }
 
-  getDomains() {
-    // TODO: db stuff;
-    // this.domains = ...;
+  update(type:String, data:any) {
+    //returns the observable of http put request 
+    return this.http.put(`${this.api_url+type}`, data);
   }
 
-  getUserCode() {
-    return this.user.code;
+  delete(type:String, id:string):any {
+    //Delete the object by the id
+    return this.http.delete(`${this.api_url}/${type}/${id}`)
+    .map(res  => {
+      return res;
+    })
   }
 
-  addAnnotation(annotation: Annotation) {
-
+  //Default Error handling method.
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
   }
 }

@@ -1,17 +1,35 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose')
+var crud = require('crud'),
+    cm = require('crud-mongoose'),
+    mongoose = require('mongoose'),
+    User = mongoose.model('User', new mongoose.Schema({
+      email:       { type: String, required: true, unique: true },
+      code:        { type: String, required: true },
+      domain:      { type: Domain, required: true },
+      phases:      [Phase],
+      annotations: [Annotation],
+      group:       { type: Group, required: true },
+    }));
 
-var UserSchema = new mongoose.Schema({
-    email: String,
-    code: String,
-    domain: Domain,
-    phases: [Phase],
-    annotations: [Annotation],
-    group: Group
-})
+// All -------------------------------------------------------------------
+ 
+/* crud.entity('/user').Create()
+  .pipe(cm.createNew(User)); 
 
-const User = mongoose.model('User', UserSchema)
-User.registerRouter(router, '/api/v1/');
+crud.entity('/user').Delete()
+    .pipe(cm.removeAll(User));  */
+ 
+crud.entity('/user').Read()
+  .pipe(cm.findAll(User))
+
+// One --------------------------------------------------------------------
+ 
+crud.entity('/user/:_id').Read()
+  .pipe(cm.findOne(User))
+ 
+crud.entity('/user/:_id').Update()
+  .pipe(cm.updateOne(User));
+ 
+crud.entity('/user/:_id').Delete()
+  .pipe(cm.removeOne(User)); 
 
 module.exports = User;

@@ -1,14 +1,31 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose')
+var crud = require('crud'),
+    cm = require('crud-mongoose'),
+    mongoose = require('mongoose'),
+    Requirement = mongoose.model('Requirement', new mongoose.Schema({
+      rid:         { type: String, required: true },
+      description: String
+    }));
 
-var RequirementSchema = new mongoose.Schema({
-    rid: String,
-    description: String
-})
+// All -------------------------------------------------------------------
+ 
+/* crud.entity('/requirement').Create()
+  .pipe(cm.createNew(Requirement)); 
 
-const Requirement = mongoose.model('Requirement', RequirementSchema)
-Requirement.registerRouter(router, '/api/v1/');
+crud.entity('/requirement').Delete()
+    .pipe(cm.removeAll(Requirement));  */
+ 
+crud.entity('/requirement').Read()
+  .pipe(cm.findAll(Requirement))
+
+// One --------------------------------------------------------------------
+ 
+crud.entity('/requirement/:_id').Read()
+  .pipe(cm.findOne(Requirement))
+ 
+crud.entity('/requirement/:_id').Update()
+  .pipe(cm.updateOne(Requirement));
+ 
+crud.entity('/requirement/:_id').Delete()
+  .pipe(cm.removeOne(Requirement)); 
 
 module.exports = Requirement;
-
