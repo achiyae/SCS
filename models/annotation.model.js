@@ -1,10 +1,11 @@
-var crud = require('crud'),
+var crud = require('node-crud'),
     cm = require('crud-mongoose'),
     mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
     Annotation = mongoose.model('Annotation', new mongoose.Schema({
       position:    { type: Number, required: true },
       length:      { type: Number, required: true },
-      requirement: { type: Requirement, required: true }
+      requirement: { type: Schema.ObjectId, ref: 'Requirement', required: true }
     }));
 
 // All -------------------------------------------------------------------

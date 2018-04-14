@@ -1,10 +1,11 @@
-var crud = require('crud'),
+var crud = require('node-crud'),
     cm = require('crud-mongoose'),
     mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
     Domain = mongoose.model('Domain', new mongoose.Schema({
       name:   { type: String, required: true },
       description: { type: String, required: true },
-      requirements: [Requirement]
+      requirements: [{ type: Schema.ObjectId, ref: 'Requirement' }]
     }));
 
 // All -------------------------------------------------------------------

@@ -1,4 +1,4 @@
-var crud = require('crud'),
+var crud = require('node-crud'),
     cm = require('crud-mongoose'),
     mongoose = require('mongoose'),
     Phase = mongoose.model('Phase', new mongoose.Schema({

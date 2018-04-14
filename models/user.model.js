@@ -1,13 +1,14 @@
-var crud = require('crud'),
+var crud = require('node-crud'),
     cm = require('crud-mongoose'),
     mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
     User = mongoose.model('User', new mongoose.Schema({
       email:       { type: String, required: true, unique: true },
       code:        { type: String, required: true },
-      domain:      { type: Domain, required: true },
-      phases:      [Phase],
-      annotations: [Annotation],
-      group:       { type: Group, required: true },
+      domain:      { type: Schema.ObjectId, ref: 'Domain', required: true },
+      phases:      [{ type: Schema.ObjectId, ref: 'Phase' }],
+      annotations: [{ type: Schema.ObjectId, ref: 'Annotation' }],
+      group:       { type: Schema.ObjectId, ref: 'Group', required: true },
     }));
 
 // All -------------------------------------------------------------------
