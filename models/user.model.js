@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose')
-//var mongoosePaginate = require('mongoose-paginate')
 
 var UserSchema = new mongoose.Schema({
     email: String,
@@ -12,7 +11,6 @@ var UserSchema = new mongoose.Schema({
     group: Group
 })
 
-//UserSchema.plugin(mongoosePaginate)
 const User = mongoose.model('User', UserSchema)
 User.registerRouter(router, '/api/v1/');
 

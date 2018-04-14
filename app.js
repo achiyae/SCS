@@ -6,10 +6,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var apiRouter = require('./routes/api.route');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 var mongoose = require('mongoose')
 var crud = require('crud-mongoose-simple');
 mongoose.plugin(crud);
@@ -17,6 +13,11 @@ var db = mongoose.createConnection('mongodb:///opt/bitnami/mongodb/tmp/mongodb-2
 //mongoose.connect('mongodb://127.0.0.1/scaapp', { useMongoClient: true})
 //.then(()=> { console.log(`Succesfully Connected to the Mongodb Database  at URL : mongodb://127.0.0.1/scaapp`)})
 //.catch(()=> { console.log(`Error Connecting to the Mongodb Database at URL : mongodb://127.0.0.1/scaapp`)})
+
+//var apiRouter = require('./routes/api.route');
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
 var app = express();
 
