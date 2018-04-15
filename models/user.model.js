@@ -1,3 +1,6 @@
+// POST exampl
+// curl --data-urlencode email=achiya@post.bgu.ac.il --data-urlencode domain=ATM --data-urlencode group=USERS  -X POST http://localhost:3000/user
+
 var crud = require('node-crud'),
     cm = require('crud-mongoose'),
     mongoose = require('mongoose'),
@@ -9,6 +12,8 @@ var crud = require('node-crud'),
       phases:      [{ type: Schema.ObjectId, ref: 'Phase' }],
       annotations: [{ type: Schema.ObjectId, ref: 'Annotation' }],
       group:       { type: Schema.ObjectId, ref: 'Group', required: true },
+      hash: String,
+      salt: String
     }));
 
 // All -------------------------------------------------------------------
