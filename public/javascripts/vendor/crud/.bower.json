@@ -1,0 +1,24 @@
+{
+  "name": "crud",
+  "main": "dist/crud.js",
+  "ignore": [
+    "examples/**",
+    "lib/**",
+    "test/**",
+    "*.md",
+    "package.json"
+  ],
+  "dependencies": {},
+  "homepage": "https://github.com/uhray/crud",
+  "version": "2.1.3",
+  "_release": "2.1.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.1.3",
+    "commit": "7d9b0771faa51f45101a8a56cdbe8f0abdf9cca8"
+  },
+  "_source": "https://github.com/uhray/crud.git",
+  "_target": "^2.1.3",
+  "_originalSource": "crud",
+  "_direct": true
+}

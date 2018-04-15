@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="h2">Your coding assignment - {{ domain.name }}</div>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+    <p>Please program this assignment and press next once you are done.</p>
+    <p>Please Note that you are requiered to write the assignment in one page, which means that all clases should be wirtten one after the other</p>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+    <p>{{ domain.description }}</p>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+    <p><app-requirements *ngFor="let req of requirements" [requirement]="req"></app-requirements></p>
+  </div>
+</div>
+
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+    <button class="btn btn-primary" (click)="onNext()">Next</button>
+  </div>
+</div>

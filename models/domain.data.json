@@ -1,0 +1,40 @@
+{
+  "name": "ATM",
+  "description": "
+<div>
+<ul>
+  <li>Key features:</li>
+  <ul>
+    <li>The system is always on.</li>
+    <li>The system does not operate without a valid credit card and a matching PIN code.
+    <li>The system provides the following services: </li>
+    <li>Withdrawal with a receipt.</li>
+    <li>Withdrawal without a receipt.</li>
+    <li>Credit information.</li>
+  </ul>
+  <li>Business and integrity rules:</li>
+  <ul>
+    <li>A client has:</li>
+    <ul>
+      <li>First name and last name</li>
+      <li>A credit card.</li>
+    </ul>
+    <li>A credit card has:</li>
+    <ul>
+      <li>The client first and last name.</li>
+      <li>A unique identifier.</li>
+      <li>A bank account identifier.</li>
+    </ul>
+    <li>A bank account has:</li>
+    <ul>
+      <li>The client details (i.e., name, id, etc.)</li>
+      <li>A list of linked credit card.</li>
+      <li>The credit balance</li>
+    </ul>
+    <li>The ATM machine is:</li>
+    <ul>
+      <li>Always on and connected to the banking network.</li>
+      <li>Accepts any valid credit card.</li>
+    </ul>
+</ul>"
+}
