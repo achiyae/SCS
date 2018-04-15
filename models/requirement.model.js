@@ -1,31 +1,35 @@
 var crud = require('node-crud'),
     cm = require('crud-mongoose'),
     mongoose = require('mongoose'),
-    Requirement = mongoose.model('Requirement', new mongoose.Schema({
+    Schema = mongoose.Schema({
       rid:         { type: String, required: true },
       description: String
-    }));
+    });
+    Model = mongoose.model('Requirement', Schema);
 
 // All -------------------------------------------------------------------
  
-/* crud.entity('/requirement').Create()
-  .pipe(cm.createNew(Requirement)); 
+crud.entity('/requirement').Create()
+  .pipe(cm.createNew(Model)); 
 
 crud.entity('/requirement').Delete()
-    .pipe(cm.removeAll(Requirement));  */
+    .pipe(cm.removeAll(Model));
  
 crud.entity('/requirement').Read()
-  .pipe(cm.findAll(Requirement))
+  .pipe(cm.findAll(Model))
 
 // One --------------------------------------------------------------------
  
 crud.entity('/requirement/:_id').Read()
-  .pipe(cm.findOne(Requirement))
+  .pipe(cm.findOne(Model))
  
 crud.entity('/requirement/:_id').Update()
-  .pipe(cm.updateOne(Requirement));
+  .pipe(cm.updateOne(Model));
  
 crud.entity('/requirement/:_id').Delete()
-  .pipe(cm.removeOne(Requirement)); 
+  .pipe(cm.removeOne(Model)); 
 
-module.exports = Requirement;
+module.exports = {
+  GetModel: function() { return Model;  },
+  GetSchema: function() { return Schema;  },
+}

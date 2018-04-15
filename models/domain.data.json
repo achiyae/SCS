@@ -36,5 +36,24 @@
       <li>Always on and connected to the banking network.</li>
       <li>Accepts any valid credit card.</li>
     </ul>
-</ul>"
+</ul>",
+  "requirements": [
+    {"rid": 1, "description": "While not in use, the system display a welcome screen."},
+    {"rid": 2, "description": "When a welcome screen is displayed, the system reacts only to the insertion of a credit card."},
+    {"rid": 3, "description": "Once a credit card is inserted and matching PIN code is given, the system returns the credit card and display the following options: Withdrawal with a receipt."},
+    {"rid": 4, "description": "Once a credit card is inserted and matching PIN code is given, the system returns the credit card and display the following options: Withdrawal without a receipt."},
+    {"rid": 5, "description": "Once a credit card is inserted and matching PIN code is given, the system returns the credit card and display the following options: Credit information."},
+    {"rid": 6, "description": "Withdrawal: The user can request to withdrawal one of the following amount of money: 50, 100, 200, 500, 1000, or a custom amount."},
+    {"rid": 7, "description": "Withdrawal: The action succeeds only if : The amount is smaller than 2000"},
+    {"rid": 8, "description": "If the cash is taken: If the user chose to withdraw with a receipt, print out a receipt which includes: The client details: name and bank account number."},
+    {"rid": 9, "description": "If the cash is taken: If the user chose to withdraw with a receipt, print out a receipt which includes: The client details: The time of which the withdrawal took a place."},
+    {"rid": 10, "description": "If the cash is taken: If the user chose to withdraw with a receipt, print out a receipt which includes: The client details: The amount of money that was withdrawn."},
+    {"rid": 11, "description": "If the cash is taken: End the session."},
+    {"rid": 12, "description": "Credit information: If the user chooses Credit information the system will display: The client details: name and bank account number."},
+    {"rid": 13, "description": "Credit information: If the user chooses Credit information the system will display: The account balance."},
+    {"rid": 14, "description": "Credit information: If the user chooses Credit information the system will display: The current date and time."},
+    {"rid": 15, "description": "Credit information: The information will be displayed for 15 seconds and then the session will end."},
+    {"rid": 16, "description": "End the session if one of the following happens: The operation ended successfully."},
+    {"rid": 17, "description": "End the session if one of the following happens: On any error (wrong PIN or invalid amount of money)."}
+  ]
 }

@@ -1,30 +1,34 @@
 var crud = require('node-crud'),
     cm = require('crud-mongoose'),
     mongoose = require('mongoose'),
-    Group = mongoose.model('group', new mongoose.Schema({
+    Schema = mongoose.Schema({
       name:    { type: String, required: true, unique: true }
-    }));
+    });
+    Model = mongoose.model('group', Schema);
 
 // All -------------------------------------------------------------------
  
 crud.entity('/group').Create()
-  .pipe(cm.createNew(Group)); 
+  .pipe(cm.createNew(Model)); 
 
 crud.entity('/group').Delete()
-    .pipe(cm.removeAll(Group));
+    .pipe(cm.removeAll(Model));
  
 crud.entity('/group').Read()
-  .pipe(cm.findAll(Group))
+  .pipe(cm.findAll(Model))
 
 // One --------------------------------------------------------------------
  
 crud.entity('/group/:_id').Read()
-  .pipe(cm.findOne(Group))
+  .pipe(cm.findOne(Model))
  
 crud.entity('/group/:_id').Update()
-  .pipe(cm.updateOne(Group));
+  .pipe(cm.updateOne(Model));
  
 crud.entity('/group/:_id').Delete()
-  .pipe(cm.removeOne(Group));
+  .pipe(cm.removeOne(Model));
 
-module.exports = Group;
+module.exports = {
+  GetModel: function() { return Model;  },
+  GetSchema: function() { return Schema;  },
+}
