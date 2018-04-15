@@ -10,11 +10,11 @@ var crud = require('node-crud'),
 
 // All -------------------------------------------------------------------
  
-/* crud.entity('/domain').Create()
+crud.entity('/domain').Create()
   .pipe(cm.createNew(Domain)); 
 
 crud.entity('/domain').Delete()
-    .pipe(cm.removeAll(Domain));  */
+    .pipe(cm.removeAll(Domain));
  
 crud.entity('/domain').Read()
   .pipe(cm.findAll(Domain))
