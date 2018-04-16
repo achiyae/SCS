@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Domain, OrmService, Requirement, User} from '../shared/orm.service';
+import * as $ from 'jquery';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class AnnotateComponent implements OnInit {
       }
     );
   }
+
 
   onNext() {
     this.router.navigate(['/annotate', this.requirement_id + 1]);
