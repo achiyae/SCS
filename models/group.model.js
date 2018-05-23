@@ -4,7 +4,7 @@ var crud = require('node-crud'),
     Schema = mongoose.Schema({
       name:    { type: String, required: true, unique: true }
     });
-    Model = mongoose.model('group', Schema);
+    Model = mongoose.model('Group', Schema);
 
 // All -------------------------------------------------------------------
  

@@ -20,7 +20,7 @@ var crud = require('node-crud'),
       salt: String
     });
     Model = mongoose.model('User', Schema);
-    /*Schema.pre('findOne', function(next) {
+    /*Schema.pre('find', function(next) {
        this.populate('group');
     });*/
     
@@ -39,24 +39,34 @@ crud.entity('/user').Read()
  
 crud.entity('/user/:_id').Read()
   .pipe(cm.findOne(Model))
-  /*.pipe(function(data,query,cb) {
-      Model.findById(query._id, function(err,data) {
-            Model.populate(data,{ path: 'group', model: Group.Model }, function (err, data) {
-	    console.log(data);
-	    cb(err,data);
+  .pipe(function(data, query, cb) {
+	var opts = [
+          { path: 'group', select: 'name' }
+	]
+	Model.populate(data,opts,function (err, data) {
+	    cb(err, data);
         });
-      })})*/
+   });
 
 crud.entity('/user/:_id/group').Read()
   .pipe(cm.findOne(Model))
   .pipe(function(data, query, cb) {
-	console.log(data);
 	var opts = [
           { path: 'group', select: 'name' }
 	]
+	Model.populate(data,opts,function (err, data) {
+	    cb(err, data.group);
+        });
+   });
+
+crud.entity('/user/:_id/domain').Read()
+  .pipe(cm.findOne(Model))
+  .pipe(function(data, query, cb) {
+	var opts = [
+          { path: 'domain' }
+	]
 	Model.populate(data,opts,function (err, user) {
-            console.log(user);
-	    cb(err, user);
+	    cb(err, user.domain);
         });
    });
  

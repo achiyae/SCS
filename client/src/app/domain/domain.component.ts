@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Domain, OrmService, Requirement, User} from '../shared/orm.service';
+import Domain from '../models/domain.model';
+import Requirement from '../models/requirement.model';
+import User from '../models/user.model';
+import {OrmService} from '../services/orm.service';
 
 @Component({
   selector: 'app-domain',
@@ -8,21 +11,33 @@ import {Domain, OrmService, Requirement, User} from '../shared/orm.service';
   styleUrls: ['./domain.component.css']
 })
 export class DomainComponent implements OnInit {
-  @Input() user: User;
   private domain: Domain;
   private requirements: Requirement[];
 
-  constructor(private orm: OrmService,
-              private router: Router) { }
+  constructor(private db: OrmService,
+              private router: Router) { 
+    this.db.userChanged.subscribe((user) => {
+      this.set_variables(user);
+    });
+  }
 
   ngOnInit() {
-    this.user = this.orm.user;
-    this.domain = this.user.domain;
-    this.requirements = Object.values(this.domain.requirements);
-    this.orm.domainChanged.subscribe(function(domain) {
-      this.domain = domain;
-      this.requirements = Object.values(this.domain.requirements);
-    });
+    this.set_variables(this.db.get_current_user());
+  }
+
+  set_variables(user:User) {
+    console.log("user",user);
+    if(user) {
+      this.db.read_query<Domain>('domain', '?_id='+user.domain).subscribe(
+       res => {
+        console.log("domain",res);
+        this.domain = res[0];
+        this.requirements = this.domain.requirements;
+       });
+    } else {
+      this.domain = undefined;
+      this.requirements = undefined;
+    }
   }
 
   onNext() {

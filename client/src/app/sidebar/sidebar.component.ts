@@ -8,11 +8,9 @@ import User from '../models/user.model';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-
   private user: User;
 
   constructor(private orm: OrmService) {
-    this.user = this.orm.user;
     this.orm.userChanged.subscribe((user) => {
       this.user = user;
     });

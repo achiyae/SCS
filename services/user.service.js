@@ -33,11 +33,11 @@ exports.createUser = async function(user){
     // Creating a new Mongoose Object by using the new keyword
     var newUser = new User({
 		email: user.email,
-		code: user.code,
+/*		code: user.code,
 		domain: user.domain,
 		phases: user.phases,
 		annotations: user.annotations,
-		group: 'users'
+		group: 'users'*/
     })
 
     try{

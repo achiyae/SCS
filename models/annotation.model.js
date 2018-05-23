@@ -26,6 +26,18 @@ crud.entity('/annotation').Read()
  
 crud.entity('/annotation/:_id').Read()
   .pipe(cm.findOne(Model))
+  .pipe(function(data, query, cb) {
+        var opts = [
+          { path: 'requirement' }
+        ]
+        Model.populate(data,opts,function (err, data) {
+            cb(err, data);
+        });
+   });
+
+//crud.entity('/annotation/:_id/requirement').Read()
+//  .pipe(cm.findOne(Model))
+
  
 crud.entity('/annotation/:_id').Update()
   .pipe(cm.updateOne(Model));

@@ -8,9 +8,15 @@ class User {
   email:       string;
   code:        string;
   domain:      Domain;
-  phases:      Phase;
-  annotations: Annotation;
+  phases:      Phase[];
+  annotations: Annotation[];
   group:       Group;
+
+  constructor(email: string, group: Group, domain: Domain) {
+    this.email = email;
+    this.group = group;
+    this.domain = domain;
+  }
 }
 
 export default User;

@@ -16,23 +16,50 @@ import User from '../models/user.model';
 @Injectable()
 export class OrmService {
   private api_url = 'http://localhost:3000/api/';
-  public user: User;
-  @Output() domains: {[name: string]: Domain};
+  private user: User;
+  private users_group: Group;
+  private domains: Domain[];
   @Output() userChanged = new EventEmitter<User>();
-  @Output() domainChanged = new EventEmitter<Domain>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.read_query<Group>("group","?name=USERS").subscribe(
+      res => {
+        this.users_group = res[0];
+      }, err => {
+        console.error('Error retrieving USERS group');
+      });
+    this.read_all<Domain>("domain").subscribe(
+      res => {
+        this.domains = res;
+      }, err => {
+        console.error('Error retrieving domains');
+      });
+  }
 
-  create(type:String, data:any): Observable<any> {
+  change_user(user:User) {
+    this.user = user;
+    this.userChanged.emit(user);
+  }
+
+  get_current_user() {
+    return this.user;
+  }
+
+  create_user(email:string) {
+    const random_domain:Domain =this.domains[Math.floor(Math.random() * this.domains.length)];
+    return new User(email, this.users_group, random_domain);
+  }
+
+  create<T>(type:String, data:T): Observable<T> {
     //returns the observable of http post request 
-    return this.http.post(`${this.api_url+type}`, data);
+    return this.http.post(`${this.api_url+type}`, data) as Observable<T>;
   }
 
   read_query<T>(type:String, query:String): Observable<T[]> {
     return this.http.get(this.api_url+type+"/"+query)
     .map(res  => {
       //Maps the response object sent from the server
-      return res["data"].docs as T[];
+      return res["data"] as T[];
     })
   }
 
@@ -40,7 +67,7 @@ export class OrmService {
     return this.http.get(this.api_url+type)
     .map(res  => {
       //Maps the response object sent from the server
-      return res["data"].docs as T[];
+      return res["data"] as T[];
     })
   }
 
