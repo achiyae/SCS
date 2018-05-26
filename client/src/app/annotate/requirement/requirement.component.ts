@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OrmService} from '../../shared/orm.service';
+
+import {OrmService} from '../../services/orm.service';
 
 @Component({
   selector: 'app-requirement',

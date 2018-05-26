@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {User, OrmService, Requirement} from '../shared/orm.service';
+
+import User from '../models/user.model';
+import { OrmService } from '../services/orm.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +12,7 @@ export class HeaderComponent implements OnInit {
   private user: User;
 
   constructor(private orm: OrmService) {
-    this.user = this.orm.user;
+    this.user = this.orm.get_current_user();
     this.orm.userChanged.subscribe((user) => {
       this.user = user;
     });

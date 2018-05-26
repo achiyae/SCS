@@ -1,7 +1,10 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Domain, OrmService, Requirement, User} from '../shared/orm.service';
 
+import Domain from '../models/domain.model';
+import Requirement from '../models/requirement.model';
+import User from '../models/user.model';
+import { OrmService } from '../services/orm.service';
 
 @Component({
   selector: 'app-annotate',
@@ -10,24 +13,25 @@ import {Domain, OrmService, Requirement, User} from '../shared/orm.service';
 })
 export class AnnotateComponent implements OnInit {
   private requirement_id: string;
-  a: string;
-  requirements: Requirement[];
+  @Input() requirements: Requirement[];
   @Input() user: User;
-  private domain: Domain;
+  @Input() domain: Domain;
 
   constructor(private orm: OrmService,
               private route: ActivatedRoute,
               private router: Router) { }
 
+	setParams() {
+		this.user = this.orm.get_current_user();
+    this.domain = this.orm.get_current_user_domain();
+    this.requirements = this.domain.requirements;    
+	}
+
   ngOnInit() {
-    this.a = this.orm.getUserCode();
-    this.user = this.orm.user;
-    this.domain = this.user.domain;
-    this.requirements = Object.values(this.domain.requirements);
-    this.orm.domainChanged.subscribe(function(domain) {
-      this.domain = domain;
-      this.requirements = Object.values(this.domain.requirements);
+  	this.orm.userChanged.subscribe(function(user) {
+  		this.setParams();
     });
+    
     this.requirement_id = this.route.snapshot.params['id'];
     this.route.params.subscribe(
       (params: Params) => {
