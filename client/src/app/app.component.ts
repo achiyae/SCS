@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 //import {OrmService} from './services/orm.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+//import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',

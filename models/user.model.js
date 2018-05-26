@@ -33,15 +33,23 @@ crud.entity('/user').Delete()
     .pipe(cm.removeAll(Model));
  
 crud.entity('/user').Read()
-  .pipe(cm.findAll(Model))
+    .pipe(cm.findAll(Model));
 
 // One --------------------------------------------------------------------
- 
+
 crud.entity('/user/:_id').Read()
   .pipe(cm.findOne(Model))
   .pipe(function(data, query, cb) {
 	var opts = [
-          { path: 'group', select: 'name' }
+          { path: 'group' }
+	]
+	Model.populate(data,opts,function (err, data) {
+	    cb(err, data);
+        });
+   })
+   .pipe(function(data, query, cb) {
+	var opts = [
+          { path: 'domain' }
 	]
 	Model.populate(data,opts,function (err, data) {
 	    cb(err, data);

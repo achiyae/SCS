@@ -8,7 +8,6 @@ var crud = require('node-crud'),
     Schema = mongoose.Schema({
       name:   { type: String, required: true },
       description: { type: String, required: true },
-//      requirements: [{ type: Schema.ObjectId, ref: 'Requirement' }]
       requirements: [Requirement.GetSchema()]
     });
     Model = mongoose.model('Domain', Schema);

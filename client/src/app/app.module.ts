@@ -20,13 +20,16 @@ import { RequirementComponent } from './annotate/requirement/requirement.compone
 import { RequirementsComponent } from './domain/requirements/requirements.component';
 import { DoneComponent } from './done/done.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { AuthGuard } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
+import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'instructions', component: InstructionsComponent },
-  { path: 'domain', component: DomainComponent },
-  { path: 'code', component: CodeComponent },
-  { path: 'annotate', component: AnnotateComponent, children: [
+  { path: 'domain', canActivate: [AuthGuard], component: DomainComponent },
+  { path: 'code', canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard], component: CodeComponent },
+  { path: 'annotate', canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard], component: AnnotateComponent, children: [
     {path: ':id', component: CodeAnnotationComponent},
    ] },
   { path: 'user', component: UserComponent },
@@ -58,7 +61,7 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [OrmService],
+  providers: [OrmService, AuthService, AuthGuard, CanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

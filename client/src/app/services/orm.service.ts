@@ -1,9 +1,9 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {isNewline} from 'codelyzer/angular/styles/cssLexer';
-import { Observable } from 'rxjs/Rx';
+import { tap, map, first } from 'rxjs/operators';
+import { pipe, Observable } from 'rxjs/Rx';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {Response} from '@angular/http';
-
 import 'rxjs/add/operator/map';
 
 import Annotation from '../models/annotation.model';
@@ -18,7 +18,7 @@ export class OrmService {
   private api_url = 'http://localhost:3000/api/';
   private user: User;
   private users_group: Group;
-  private domains: Domain[];
+  private domains: {[key: string]: Domain} = {};
   @Output() userChanged = new EventEmitter<User>();
 
   constructor(private http: HttpClient) { 
@@ -30,13 +30,13 @@ export class OrmService {
       });
     this.read_all<Domain>("domain").subscribe(
       res => {
-        this.domains = res;
+				res.forEach(r => { this.domains[r._id] = r; });
       }, err => {
         console.error('Error retrieving domains');
       });
   }
 
-  change_user(user:User) {
+  private set_user(user:User) {
     this.user = user;
     this.userChanged.emit(user);
   }
@@ -44,11 +44,32 @@ export class OrmService {
   get_current_user() {
     return this.user;
   }
+  
+  get_current_user_domain() {
+  	return this.domains[this.user.domain];
+  }
 
   create_user(email:string) {
-    const random_domain:Domain =this.domains[Math.floor(Math.random() * this.domains.length)];
-    return new User(email, this.users_group, random_domain);
+    const keys = Object.keys(this.domains);
+    const random_domain_id: string = keys[Math.floor(Math.random() * keys.length)];
+    return new User(email, this.users_group, random_domain_id);
   }
+
+  login(email: string, password: string): Observable<any> {
+	    return this.read_query<User>('user', '?email='+email).pipe(
+	    	tap(
+	    		res => {
+	    			if(res.length >0) {
+	    				// console.log("logged-in",res);
+	    				this.set_user(res[0]);
+		    			return res;
+	    			} else {
+	    				throw new Error("No such user or bad password");
+	    			}
+	    		}
+	    	)
+	    );
+	}
 
   create<T>(type:String, data:T): Observable<T> {
     //returns the observable of http post request 
@@ -63,6 +84,11 @@ export class OrmService {
     })
   }
 
+  read_one<T>(type:String, id:string): Observable<T> {
+    return this.http.get(this.api_url+type+"/"+id)
+    .map(res => { return res["data"] as T; })    
+  }
+
   read_all<T>(type:String): Observable<T[]> {
     return this.http.get(this.api_url+type)
     .map(res  => {
@@ -71,9 +97,10 @@ export class OrmService {
     })
   }
 
-  update(type:String, data:any) {
+  update<T>(type:String, data:T): Observable<T> {
     //returns the observable of http put request 
-    return this.http.put(`${this.api_url+type}`, data);
+    console.log("data is ", data);
+    return this.http.put(`${this.api_url+type}`, data) as Observable<T>;
   }
 
   delete(type:String, id:string):any {
