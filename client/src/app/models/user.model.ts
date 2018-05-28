@@ -17,6 +17,10 @@ class User {
     this.group = group._id;
     this.domain = domain_id;
   }
+  
+  /*addPhase(name: string) {
+  	this.phases.push({name:name, done:true});
+  }*/
 }
 
 export default User;

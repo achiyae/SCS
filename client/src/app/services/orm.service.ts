@@ -84,12 +84,12 @@ export class OrmService {
     })
   }
 
-  read_one<T>(type:String, id:string): Observable<T> {
+  read_one<T>(type:string, id:string): Observable<T> {
     return this.http.get(this.api_url+type+"/"+id)
     .map(res => { return res["data"] as T; })    
   }
 
-  read_all<T>(type:String): Observable<T[]> {
+  read_all<T>(type:string): Observable<T[]> {
     return this.http.get(this.api_url+type)
     .map(res  => {
       //Maps the response object sent from the server
@@ -97,18 +97,15 @@ export class OrmService {
     })
   }
 
-  update<T>(type:String, data:T): Observable<T> {
+  update<T>(type:string, data:T): Observable<T> {
     //returns the observable of http put request 
-    console.log("data is ", data);
-    return this.http.put(`${this.api_url+type}`, data) as Observable<T>;
+    // console.log("data is ", data);
+    return this.http.put(`${this.api_url+type}/${data["_id"]}`, data) as Observable<T>;
   }
 
-  delete(type:String, id:string):any {
+  delete<T>(type:string, data:string): Observable<T> {
     //Delete the object by the id
-    return this.http.delete(`${this.api_url}/${type}/${id}`)
-    .map(res  => {
-      return res;
-    })
+    return this.http.delete(`${this.api_url+type}/${data["_id"]}`) as Observable<T>;
   }
 
   //Default Error handling method.

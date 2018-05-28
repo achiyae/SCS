@@ -15,7 +15,7 @@ import { OrmService } from '../services/orm.service';
 })
 export class CodeComponent implements OnInit, CanComponentDeactivate {
 	private allowEdit = false;
-  code: string;
+  private code: string;
 	private user: User;
 	private domain: Domain;
   
@@ -24,6 +24,7 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
 	setParams() {
 		this.user = this.db.get_current_user();
 		if(this.user) {
+			this.code = this.user.code;
 			this.domain = this.db.get_current_user_domain();
 			if (this.user.code) {
 				this.allowEdit = false;
@@ -66,7 +67,7 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
   }
   
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.allowEdit && this.code !== this.user.code) {
+    if (this.allowEdit && this.code !== this.user.code) {
       return confirm('Do you want to discard the changes?');
     } else {
       return true;
