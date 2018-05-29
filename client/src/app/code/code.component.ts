@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { CanComponentDeactivate } from '../services/can-deactivate-guard.service';
 import Domain from '../models/domain.model';
 import Requirement from '../models/requirement.model';
-import User from '../models/user.model';
+import PopulatedUser from '../models/populatedUser.model';
 import { OrmService } from '../services/orm.service';
 
 @Component({
@@ -16,42 +16,39 @@ import { OrmService } from '../services/orm.service';
 export class CodeComponent implements OnInit, CanComponentDeactivate {
 	private allowEdit = false;
   private code: string;
-	private user: User;
+	private user: PopulatedUser;
 	private domain: Domain;
   
   constructor(private db: OrmService, private route: ActivatedRoute, private router: Router) { }
 
-	setParams() {
-		this.user = this.db.get_current_user();
-		if(this.user) {
-			this.code = this.user.code;
-			this.domain = this.db.get_current_user_domain();
-			if (this.user.code) {
+  ngOnInit() {
+    this.db.userChanged.subscribe(function(user) {
+    	user.userUpdated.subscribe(this.setParams);
+    	this.setParams(user);
+    });
+    
+    this.setParams(this.db.getCurrentUser());
+  }
+  
+  setParams(user:PopulatedUser) {
+		this.user = user;
+		if(user) {			
+			this.code = user.code;
+			this.domain = user.getDomain();
+			if (user.code) {
 				this.allowEdit = false;
 			} else {
 				this.allowEdit = true;
 			}
 		} else {
 			this.domain = undefined;
-			this.allowEdit = true;
+			this.allowEdit = false;
 		}
 	}
-
-  ngOnInit() {
-    this.db.userChanged.subscribe(function(user) {
-      this.setParams();
-    });
-    
-    this.setParams();
-  }
   
   onSave() {
   	//TODO: add are you sure message.
-  	console.log("code", this.code);
-  	console.log("user", this.user);
-  	this.user.code = this.code;
-  	
-  	this.db.update<User>('user', this.user).subscribe(
+  	this.user.setCode(this.code).subscribe(
   		res => {
   			this.allowEdit = false;
   		},

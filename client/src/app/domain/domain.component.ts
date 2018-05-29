@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import Domain from '../models/domain.model';
 import Requirement from '../models/requirement.model';
-import User from '../models/user.model';
+import PopulatedUser from '../models/populatedUser.model';
 import { OrmService } from '../services/orm.service';
 
 @Component({
@@ -22,12 +22,12 @@ export class DomainComponent implements OnInit {
     	//console.log("triggered");
       this.set_variables(user);
     });
-    this.set_variables(this.db.get_current_user());
+    this.set_variables(this.db.getCurrentUser());
   }
 
-  set_variables(user:User) {
+  set_variables(user:PopulatedUser) {
     if(user) {
-      this.domain = this.db.get_current_user_domain();
+      this.domain = user.getDomain();
       this.requirements = this.domain.requirements;
     } else {
     	this.domain = undefined;

@@ -12,65 +12,62 @@ import Group from '../models/group.model';
 import Phase from '../models/phase.model';
 import Requirement from '../models/requirement.model';
 import User from '../models/user.model';
+import PopulatedUser from '../models/populatedUser.model';
 
 @Injectable()
 export class OrmService {
   private api_url = 'http://localhost:3000/api/';
-  private user: User;
-  private users_group: Group;
+  private user: PopulatedUser;
+  private usersGroup: Group;
   private domains: {[key: string]: Domain} = {};
-  @Output() userChanged = new EventEmitter<User>();
+  private groups: {[key: string]: Group} = {};
+  @Output() userChanged = new EventEmitter<PopulatedUser>();
 
   constructor(private http: HttpClient) { 
-    this.read_query<Group>("group","?name=USERS").subscribe(
-      res => {
-        this.users_group = res[0];
-      }, err => {
-        console.error('Error retrieving USERS group');
-      });
     this.read_all<Domain>("domain").subscribe(
       res => {
 				res.forEach(r => { this.domains[r._id] = r; });
       }, err => {
         console.error('Error retrieving domains');
       });
+    this.read_all<Group>("group").subscribe(
+      res => {
+				res.forEach(r => { 
+					this.groups[r._id] = r;
+					if(r.name === "USERS") {
+						this.usersGroup = r;
+					}
+				});
+      }, err => {
+        console.error('Error retrieving groups');
+      });
   }
 
-  private set_user(user:User) {
+  // can be called only from PopulatedUser
+  setUser(user: PopulatedUser): PopulatedUser {
     this.user = user;
     this.userChanged.emit(user);
+    return user;
   }
 
-  get_current_user() {
+  getCurrentUser(): PopulatedUser {
     return this.user;
   }
   
-  get_current_user_domain() {
-  	return this.domains[this.user.domain];
+  getDomain(id: string): Domain {
+  	return this.domains[id];
+  }
+  
+  getGroup(id: string): Group {
+  	return this.groups[id];
   }
 
-  create_user(email:string) {
+  createUser(email:string):PopulatedUser {
     const keys = Object.keys(this.domains);
-    const random_domain_id: string = keys[Math.floor(Math.random() * keys.length)];
-    return new User(email, this.users_group, random_domain_id);
+    const randomDomain: string = keys[Math.floor(Math.random() * keys.length)];
+    return new PopulatedUser(this, new User(email, this.usersGroup._id, randomDomain));
   }
-
-  login(email: string, password: string): Observable<any> {
-	    return this.read_query<User>('user', '?email='+email).pipe(
-	    	tap(
-	    		res => {
-	    			if(res.length >0) {
-	    				// console.log("logged-in",res);
-	    				this.set_user(res[0]);
-		    			return res;
-	    			} else {
-	    				throw new Error("No such user or bad password");
-	    			}
-	    		}
-	    	)
-	    );
-	}
-
+  
   create<T>(type:String, data:T): Observable<T> {
     //returns the observable of http post request 
     return this.http.post(`${this.api_url+type}`, data) as Observable<T>;

@@ -2,8 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {OrmService} from '../services/orm.service';
 import {Router} from '@angular/router';
 
-import User from '../models/user.model';
-import Domain from '../models/domain.model';
+import PopulatedUser from '../models/populatedUser.model';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -15,13 +14,13 @@ export class UserComponent implements OnInit {
   private email: string = '';
   private next_disabled = true;
 
-  constructor(private db: OrmService, private router: Router, private authService: AuthService) { }
+  constructor(private orm: OrmService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
   }
 
   onLogin() {
-  	this.db.login(this.email, "").subscribe(
+  	PopulatedUser.login(this.orm, this.email, "").subscribe(
       res => { 
       	this.authService.login();
       	this.router.navigate(['/domain']);

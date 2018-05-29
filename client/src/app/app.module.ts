@@ -29,7 +29,7 @@ const appRoutes: Routes = [
   { path: 'instructions', component: InstructionsComponent },
   { path: 'domain', canActivate: [AuthGuard], component: DomainComponent },
   { path: 'code', canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard], component: CodeComponent },
-  { path: 'annotate', canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard], component: AnnotateComponent, children: [
+  { path: 'annotate', canActivate: [AuthGuard], component: AnnotateComponent, children: [
     {path: ':id', component: CodeAnnotationComponent},
    ] },
   { path: 'user', component: UserComponent },
