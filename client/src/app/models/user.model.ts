@@ -1,6 +1,6 @@
-import {EventEmitter, Output} from '@angular/core';
+//import {EventEmitter, Output} from '@angular/core';
 import { pipe, Observable } from 'rxjs/Rx';
-import { tap } from 'rxjs/operators';
+//import { tap } from 'rxjs/operators';
 
 import Annotation from './annotation.model';
 import Phase from './phase.model';
@@ -15,7 +15,7 @@ class User {
   annotations: Annotation[];
   group:    	 string;
 
-  constructor(email: any, group?: string, domain_id?: string){
+	constructor(email: any, group?: string, domain_id?: string){
   	if (typeof email == "object") {
   		const user = email;
 	  	this._id = user._id;
@@ -37,7 +37,7 @@ class User {
   	this.save(orm);
   }*/
   
-  protected setCodeO(orm: OrmService, code:string): Observable<User> {
+  setCode(orm: OrmService, code:string): Observable<User> {
   	if(this.code) {
   		throw new Error('Cannot set code for a user with a code');
   	}

@@ -33,9 +33,9 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
   setParams(user:PopulatedUser) {
 		this.user = user;
 		if(user) {			
-			this.code = user.code;
+			this.code = user.getUser().code;
 			this.domain = user.getDomain();
-			if (user.code) {
+			if (user.getUser().code) {
 				this.allowEdit = false;
 			} else {
 				this.allowEdit = true;
@@ -54,7 +54,7 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
   		},
   		err => { 
   			console.error("could not save code", err);
-  			this.user.code = undefined;
+  			this.user.getUser().code = undefined;
   		}
   	);
   }
@@ -64,7 +64,7 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
   }
   
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.allowEdit && this.code !== this.user.code) {
+    if (this.allowEdit && this.code !== this.user.getUser().code) {
       return confirm('Do you want to discard the changes?');
     } else {
       return true;

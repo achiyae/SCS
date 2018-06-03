@@ -23,6 +23,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
+import { AnnotatorDirective } from './annotate/annotator/annotator.directive';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
     RequirementsComponent,
     DoneComponent,
     SidebarComponent,
+    AnnotatorDirective,
   ],
   imports: [
     BrowserModule,

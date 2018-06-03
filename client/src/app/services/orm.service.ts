@@ -62,18 +62,22 @@ export class OrmService {
   	return this.groups[id];
   }
 
-  createUser(email:string):PopulatedUser {
-    const keys = Object.keys(this.domains);
-    const randomDomain: string = keys[Math.floor(Math.random() * keys.length)];
-    return new PopulatedUser(this, new User(email, this.usersGroup._id, randomDomain));
+  createPopulatedUser(email:string):PopulatedUser {
+    return new PopulatedUser(this, this.createUser(email));
   }
   
-  create<T>(type:String, data:T): Observable<T> {
+  createUser(email:string):User {
+    const keys = Object.keys(this.domains);
+    const randomDomain: string = keys[Math.floor(Math.random() * keys.length)];
+    return new User(email, this.usersGroup._id, randomDomain);
+  }
+  
+  create<T>(type:string, data:T): Observable<T> {
     //returns the observable of http post request 
     return this.http.post(`${this.api_url+type}`, data) as Observable<T>;
   }
 
-  read_query<T>(type:String, query:String): Observable<T[]> {
+  read_query<T>(type:string, query:string): Observable<T[]> {
     return this.http.get(this.api_url+type+"/"+query)
     .map(res  => {
       //Maps the response object sent from the server

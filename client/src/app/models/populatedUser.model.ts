@@ -7,34 +7,46 @@ import Domain from './domain.model';
 import Group from './group.model';
 import { OrmService } from '../services/orm.service';
 
-class PopulatedUser extends User {
+class PopulatedUser {
 	@Output() userUpdated = new EventEmitter<PopulatedUser>();
-	private domainO: Domain;
-	private groupO: Group;
+	private domain: Domain;
+	private group: Group;
+	private user: User;
 	private orm: OrmService;
 	
 	constructor(orm: OrmService, user: User) {
-		super(user);
+		this.user = user;
 		this.orm = orm;
-		this.domainO = orm.getDomain(user.domain);	
-		this.groupO = orm.getGroup(user.group);
+		this.domain = orm.getDomain(user.domain);	
+		this.group = orm.getGroup(user.group);
 	}
 	
 	getDomain(): Domain {
-		return this.domainO;
+		return this.domain;
 	}
 	
 	getGroup(): Group {
-		return this.groupO;
+		return this.group;
+	}
+	
+	getUser(): User {
+		return this.user;
+	}
+	
+	getCode(): String {
+		return this.user.code;
 	}
 	
 	setCode(code: string): Observable<PopulatedUser> {
-		return this.setCodeO(this.orm, code).pipe(
-			map(u => this),
+		return new User(this.user).setCode(this.orm, code).pipe(
 			tap(
-			  res => { this.userUpdated.emit(this); },
+			  res => { 
+			  	this.user = res;
+			  	this.userUpdated.emit(this); 
+			  },
       	err => { console.error("error saving user",this); }
-     	)
+     	),
+     	map(val => this)
     );	
   }
   
@@ -49,6 +61,10 @@ class PopulatedUser extends User {
           }
         }
       ));
+  }
+  
+  static register(orm: OrmService, email: string, password: string): Observable<any> {
+    return orm.create<User>('user', orm.createUser(email));
   }
 }
 
