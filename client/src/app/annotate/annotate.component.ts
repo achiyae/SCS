@@ -62,9 +62,6 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 	  	this.annotationsAfterEdit = [];
 	  	this.annotationsBeforeEdit = [];
 	  }
-	  //console.log("pos", position);
-	  //console.log("rPos", this.rPositionInArray);
-	  console.log("r_id", this.r_id);
   }
 
   getRequirement(): Requirement {
@@ -72,7 +69,6 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
   }
   
   onNext() {
-//  	console.log("rpa", this.rPositionInArray);
   	this.rPositionInArray += 1;
     this.router.navigate(['/annotate', this.rPositionInArray]);
   }

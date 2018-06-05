@@ -28,7 +28,7 @@ export class AnnotatorDirective {
 			const start:number = range.startOffset;
 			const end:number = range.endOffset;
 			if(start < end) {
-				this.addAnnotation(start,end);
+				this.addAnnotation(start,end-1);
 			}
 		}
 	}
