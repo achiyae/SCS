@@ -6,6 +6,7 @@ import { CanComponentDeactivate } from '../services/can-deactivate-guard.service
 import Domain from '../models/domain.model';
 import Requirement from '../models/requirement.model';
 import PopulatedUser from '../models/populatedUser.model';
+import Annotation from '../models/annotation.model';
 import { OrmService } from '../services/orm.service';
 
 @Component({
@@ -14,10 +15,13 @@ import { OrmService } from '../services/orm.service';
   styleUrls: ['./annotate.component.css']
 })
 export class AnnotateComponent implements OnInit, CanComponentDeactivate {
-  private requirement_id: string;
+	private rPositionInArray: number = 0;
+  private r_id: string;
   @Input() requirements: Requirement[];
   @Input() user: PopulatedUser;
   @Input() domain: Domain;
+  private annotationsBeforeEdit:Annotation[];
+  annotationsAfterEdit:Annotation[];
 
   constructor(private orm: OrmService,
               private route: ActivatedRoute,
@@ -26,26 +30,53 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 	setParams(user:PopulatedUser) {
 		this.user = user;
     this.domain = user.getDomain();
-    this.requirements = this.domain.requirements;    
+    this.requirements = this.domain.requirements;
 	}
 
   ngOnInit() {
   	this.orm.userChanged.subscribe(function(user) {
   		this.setParams(user);
     });
-    
     this.setParams(this.orm.getCurrentUser());
     
-    this.requirement_id = this.route.snapshot.params['id'];
+//    console.log("route", this.route.snapshot.params['id']);
+//    this.updateCurrentRequirement(this.route.snapshot.params['id']);
+    
+    const comp = this;
+    
     this.route.params.subscribe(
       (params: Params) => {
-        this.requirement_id = params['id'];
+//      	console.log("router", params);
+//      	this.rPositionInArray = params['id'];
+      	comp.updateCurrentRequirement(params['id']);
       }
     );
   }
+  
+  private updateCurrentRequirement(position: string) {
+  	this.rPositionInArray = +position;
+  	if(this.rPositionInArray > 0) {
+	  	this.r_id = this.requirements[this.rPositionInArray-1]._id;
+	  	this.annotationsBeforeEdit = this.user.getAnnotations(this.r_id);
+	    this.annotationsAfterEdit = this.annotationsBeforeEdit.slice();
+	  } else {
+	  	this.r_id = null;
+	  	this.annotationsAfterEdit = [];
+	  	this.annotationsBeforeEdit = [];
+	  }
+	  /*console.log("pos", position);
+	  console.log("rPos", this.rPositionInArray);
+	  console.log("r_id", this.r_id);*/
+  }
 
+  getRequirement(): Requirement {
+  	return this.requirements[this.rPositionInArray-1];
+  }
+  
   onNext() {
-    this.router.navigate(['/annotate', this.requirement_id + 1]);
+//  	console.log("rpa", this.rPositionInArray);
+  	this.rPositionInArray += 1;
+    this.router.navigate(['/annotate', this.rPositionInArray]);
   }
   
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {

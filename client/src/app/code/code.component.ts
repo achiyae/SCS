@@ -22,9 +22,9 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
   constructor(private db: OrmService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    const comp: CodeComponent = this;
     this.db.userChanged.subscribe(function(user) {
-    	user.userUpdated.subscribe(this.setParams);
-    	this.setParams(user);
+    	comp.setParams(user);
     });
     
     this.setParams(this.db.getCurrentUser());
@@ -51,10 +51,12 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
   	this.user.setCode(this.code).subscribe(
   		res => {
   			this.allowEdit = false;
+  			//add note that it was saved successfully
   		},
   		err => { 
   			console.error("could not save code", err);
   			this.user.getUser().code = undefined;
+  			//add error note
   		}
   	);
   }

@@ -5,6 +5,7 @@ import { pipe, Observable } from 'rxjs/Rx';
 import User from './user.model';
 import Domain from './domain.model';
 import Group from './group.model';
+import Annotation from './annotation.model';
 import { OrmService } from '../services/orm.service';
 
 class PopulatedUser {
@@ -19,6 +20,12 @@ class PopulatedUser {
 		this.orm = orm;
 		this.domain = orm.getDomain(user.domain);	
 		this.group = orm.getGroup(user.group);
+	}
+	
+	getAnnotations(r_id: string): Annotation[] {
+		//console.log("r_id", r_id);
+		//console.log("user", this.user);
+		return this.user.getAnnotations(r_id);
 	}
 	
 	getDomain(): Domain {
@@ -55,7 +62,7 @@ class PopulatedUser {
   		tap(
         res => {
           if(res.length >0) {
-          	return orm.setUser(new PopulatedUser(orm, res[0]));
+          	return orm.setUser(new PopulatedUser(orm, new User().deserialize(res[0])));
           } else {
              throw new Error("No such user or bad password");
           }
@@ -64,7 +71,16 @@ class PopulatedUser {
   }
   
   static register(orm: OrmService, email: string, password: string): Observable<any> {
-    return orm.create<User>('user', orm.createUser(email));
+    return orm.create<User>('user', orm.createUser(email)).pipe(
+    	tap(
+    		res => {
+    			if(res.length>0) {
+    				return new User().deserialize(res);
+    			} else {
+             throw new Error("No such user or bad password");
+          }
+        }
+    ));
   }
 }
 

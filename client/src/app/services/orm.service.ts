@@ -26,16 +26,16 @@ export class OrmService {
   constructor(private http: HttpClient) { 
     this.read_all<Domain>("domain").subscribe(
       res => {
-				res.forEach(r => { this.domains[r._id] = r; });
+				res.forEach(r => { this.domains[r._id] = new Domain().deserialize(r); });
       }, err => {
         console.error('Error retrieving domains');
       });
     this.read_all<Group>("group").subscribe(
       res => {
 				res.forEach(r => { 
-					this.groups[r._id] = r;
+					this.groups[r._id] = new Group().deserialize(r);
 					if(r.name === "USERS") {
-						this.usersGroup = r;
+						this.usersGroup = this.groups[r._id];
 					}
 				});
       }, err => {

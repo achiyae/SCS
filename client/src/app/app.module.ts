@@ -12,8 +12,6 @@ import { InstructionsComponent } from './instructions/instructions.component';
 import { DomainComponent } from './domain/domain.component';
 import { CodeComponent } from './code/code.component';
 import { AnnotateComponent } from './annotate/annotate.component';
-import { CodeAnnotationComponent } from './annotate/code-annotation/code-annotation.component';
-import { RequirementComponent } from './annotate/requirement/requirement.component';
 import { RequirementsComponent } from './domain/requirements/requirements.component';
 import { DoneComponent } from './done/done.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -27,9 +25,9 @@ const appRoutes: Routes = [
   { path: 'instructions', component: InstructionsComponent },
   { path: 'domain', canActivate: [AuthGuard], component: DomainComponent },
   { path: 'code', canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard], component: CodeComponent },
-  { path: 'annotate', canActivate: [AuthGuard], component: AnnotateComponent, children: [
-    {path: ':id', component: CodeAnnotationComponent},
-   ] },
+  { path: 'annotate/:id', canActivate: [AuthGuard], component: AnnotateComponent }, /*, children: [
+    {path: ':id', canActivate: [AuthGuard], component: CodeAnnotationComponent},
+   ] },*/
   { path: 'user', component: UserComponent },
 ];
 
@@ -43,8 +41,6 @@ const appRoutes: Routes = [
     DomainComponent,
     CodeComponent,
     AnnotateComponent,
-    CodeAnnotationComponent,
-    RequirementComponent,
     RequirementsComponent,
     DoneComponent,
     SidebarComponent,

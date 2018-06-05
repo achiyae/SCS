@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
   private succMsg: string;
 
   constructor(private orm: OrmService, private router: Router, private authService: AuthService) { 
-  	console.log("orm", orm);
+  	// console.log("orm", orm);
   }
 
   ngOnInit() {  }
