@@ -17,7 +17,7 @@
 
   <div *ngIf="rPositionInArray>0" class="col-md-6 text-xs-center">
     <h3>Your code:</h3>
-    <p [(appAnnotator)]="annotationsAfterEdit" requirement_id="r_id">{{ user.getCode() }}</p>
+    <p [(appAnnotator)]="annotationsAfterEdit" [requirementId]="r_id">{{ user.getCode() }}</p>
   </div>
 
 </div>
@@ -26,8 +26,3 @@
     <button class="btn btn-primary" (click)="onNext()">Next</button>
   </div>
 </div>
-
-
-
-
-

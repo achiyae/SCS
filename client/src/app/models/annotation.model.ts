@@ -7,11 +7,11 @@ class Annotation implements Serializable<Annotation> {
     requirement: string;
     
     constructor(position?: number, length?:number, requirement?: string) {
-    	if(!position) { return; }
-    	
-    	this.position = position;
-    	this.length = length;
-    	this.requirement = requirement;
+    	if(position != null) {
+	    	this.position = position;
+	    	this.length = length;
+	    	this.requirement = requirement;
+	   	}
     }
     
     deserialize(input) {

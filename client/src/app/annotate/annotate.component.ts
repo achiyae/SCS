@@ -16,7 +16,7 @@ import { OrmService } from '../services/orm.service';
 })
 export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 	private rPositionInArray: number = 0;
-  private r_id: string;
+  @Input() r_id: string;
   @Input() requirements: Requirement[];
   @Input() user: PopulatedUser;
   @Input() domain: Domain;
@@ -42,13 +42,11 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 //    console.log("route", this.route.snapshot.params['id']);
 //    this.updateCurrentRequirement(this.route.snapshot.params['id']);
     
-    const comp = this;
-    
     this.route.params.subscribe(
       (params: Params) => {
 //      	console.log("router", params);
 //      	this.rPositionInArray = params['id'];
-      	comp.updateCurrentRequirement(params['id']);
+      	this.updateCurrentRequirement(params['id']);
       }
     );
   }
@@ -64,9 +62,9 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 	  	this.annotationsAfterEdit = [];
 	  	this.annotationsBeforeEdit = [];
 	  }
-	  /*console.log("pos", position);
-	  console.log("rPos", this.rPositionInArray);
-	  console.log("r_id", this.r_id);*/
+	  //console.log("pos", position);
+	  //console.log("rPos", this.rPositionInArray);
+	  console.log("r_id", this.r_id);
   }
 
   getRequirement(): Requirement {
@@ -80,6 +78,7 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
   }
   
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+  	console.log("annotations", this.annotationsAfterEdit);
   	return true;
     /*if (this.allowEdit && this.code !== this.user.code) {
 		  return confirm('Do you want to discard the changes?');

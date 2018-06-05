@@ -12,7 +12,7 @@ export class AnnotatorDirective {
 	@Output() appAnnotatorChanged = new EventEmitter<Annotation[]>(); 
 
 	constructor(private el: ElementRef) {
-    console.log("el",el);
+    //console.log("el",el);
     this.originalText = el.nativeElement.value;
 	}
 
@@ -28,12 +28,13 @@ export class AnnotatorDirective {
 			const start:number = range.startOffset;
 			const end:number = range.endOffset;
 			if(start < end) {
-				
+				this.addAnnotation(start,end);
 			}
 		}
 	}
 	
 	private addAnnotation(start:number, end:number) {
 		this.annotations.push(new Annotation(start, end, this.requirementId));
+		this.appAnnotatorChanged.emit(this.annotations);
 	}
 }
