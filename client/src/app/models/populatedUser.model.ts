@@ -40,7 +40,11 @@ class PopulatedUser {
 		return this.user;
 	}
 	
-	getCode(): String {
+	getUserCopy(): User {
+		return new User().deserialize(this.user);
+	}
+	
+	getCode(): string {
 		return this.user.code;
 	}
 	
@@ -54,7 +58,27 @@ class PopulatedUser {
       	err => { console.error("error saving user",this); }
      	),
      	map(val => this)
-    );	
+    );
+  }
+  
+  updateAnnotations(added: Annotation[], removed: Annotation[]): Observable<PopulatedUser> {
+  	var u = new User(this.user);
+  	for(let a of added) {
+  		u.annotations.push(a);
+  	}
+  	for(let a of removed) {
+  		u.annotations = u.annotations.filter(o => !o.equals(a));
+  	}
+  	return u.save(this.orm).pipe(
+			tap(
+			  res => { 
+			  	this.user = res;
+			  	this.userUpdated.emit(this); 
+			  },
+      	err => { console.error("error saving user",this); }
+     	),
+     	map(val => this)
+    );
   }
   
   static login(orm: OrmService, email: string, password: string): Observable<any> {

@@ -17,12 +17,19 @@
 
   <div *ngIf="rPositionInArray>0" class="col-md-6 text-xs-center">
     <h3>Your code:</h3>
-    <p [(appAnnotator)]="annotationsAfterEdit" [requirementId]="r_id">{{ user.getCode() }}</p>
+    <p 
+    	[appAnnotator]="annotations"
+    	[requirementId]="r_id"
+    	(annotationAdded)="onAnnotationAdded($event)"
+    	(annotationDeleted)="onAnnotationDeleted($event)"
+    	[text]="code"
+    ></p> <!-- this line must stay as is or all annotations will be in an offset-->
   </div>
 
 </div>
 <div class="row">
   <div class="col-xs-12">
     <button class="btn btn-primary" (click)="onNext()">Next</button>
+    <button class="btn" [disabled]="!changed" (click)="onSave()">Save Code</button>
   </div>
 </div>

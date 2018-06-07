@@ -20,14 +20,15 @@ class User implements Serializable<User> {
 			return;
 		}
   	if (typeof email == "object") {
-  		const user = email;
+  		this.deserialize(email);
+/*  		const user = email;
 	  	this._id = user._id;
 	  	this.email = user.email;
 	  	this.code = user.code;
 	  	this.domain = user.domain;
 	  	this.phases = user.phases;
 	  	this.annotations = user.annotations;
-	  	this.group = user.group;
+	  	this.group = user.group;*/
   	} else {
   	  this.email = email;
 	    this.group = group;
@@ -73,7 +74,17 @@ class User implements Serializable<User> {
   	return this.save(orm);
   }
   
-  private save(orm: OrmService): Observable<User> {
+  addAnnotation(a: Annotation) {
+  	this.annotations.push(a);
+  }
+  
+  removeAnnotation(_id: string) {
+  	if(_id) {
+  		this.annotations = this.annotations.filter(a => a._id !== _id);
+	  }
+  }
+  
+  save(orm: OrmService): Observable<User> {
   	return orm.update<User>("user", this);
   }
 }

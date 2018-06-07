@@ -6,6 +6,7 @@ import { CanComponentDeactivate } from '../services/can-deactivate-guard.service
 import Domain from '../models/domain.model';
 import Requirement from '../models/requirement.model';
 import PopulatedUser from '../models/populatedUser.model';
+import User from '../models/user.model';
 import Annotation from '../models/annotation.model';
 import { OrmService } from '../services/orm.service';
 
@@ -17,11 +18,15 @@ import { OrmService } from '../services/orm.service';
 export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 	private rPositionInArray: number = 0;
   @Input() r_id: string;
-  @Input() requirements: Requirement[];
-  @Input() user: PopulatedUser;
-  @Input() domain: Domain;
-  private annotationsBeforeEdit:Annotation[];
-  annotationsAfterEdit:Annotation[];
+  @Input() resetHighlights;
+  @Input() code: string;
+  private requirements: Requirement[];
+  private user: PopulatedUser;
+  private domain: Domain;
+  private deletedAnnotations: Annotation[];
+  private addedAnnotations: Annotation[];
+  private changed: boolean = false;
+  annotations: Annotation[];
 
   constructor(private orm: OrmService,
               private route: ActivatedRoute,
@@ -29,23 +34,19 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 
 	setParams(user:PopulatedUser) {
 		this.user = user;
+		this.code = user.getCode();
     this.domain = user.getDomain();
     this.requirements = this.domain.requirements;
 	}
 
   ngOnInit() {
+  	this.setParams(this.orm.getCurrentUser());
   	this.orm.userChanged.subscribe(function(user) {
   		this.setParams(user);
     });
-    this.setParams(this.orm.getCurrentUser());
-    
-//    console.log("route", this.route.snapshot.params['id']);
-//    this.updateCurrentRequirement(this.route.snapshot.params['id']);
-    
+        
     this.route.params.subscribe(
       (params: Params) => {
-//      	console.log("router", params);
-//      	this.rPositionInArray = params['id'];
       	this.updateCurrentRequirement(params['id']);
       }
     );
@@ -53,14 +54,18 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
   
   private updateCurrentRequirement(position: string) {
   	this.rPositionInArray = +position;
+  	this.deletedAnnotations = [];
+	  this.addedAnnotations = [];
+	  //this.code = '';
+	  this.code = this.user.getCode();
+	  this.changed = false;
   	if(this.rPositionInArray > 0) {
 	  	this.r_id = this.requirements[this.rPositionInArray-1]._id;
-	  	this.annotationsBeforeEdit = this.user.getAnnotations(this.r_id);
-	    this.annotationsAfterEdit = this.annotationsBeforeEdit.slice();
+	  	this.annotations = this.user.getUserCopy().getAnnotations(this.r_id);
 	  } else {
 	  	this.r_id = null;
-	  	this.annotationsAfterEdit = [];
-	  	this.annotationsBeforeEdit = [];
+	  	this.annotations = [];
+	  	
 	  }
   }
 
@@ -69,17 +74,45 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
   }
   
   onNext() {
-  	this.rPositionInArray += 1;
-    this.router.navigate(['/annotate', this.rPositionInArray]);
+  	//console.log("code", this.user.getCode());
+    this.router.navigate(['/annotate', this.rPositionInArray + 1]);
   }
   
+  onAnnotationAdded(a) {
+  	this.addedAnnotations.push(a);
+  	this.changed = true;
+  }
+  
+  onAnnotationDeleted(a) {
+  	this.addedAnnotations = this.addedAnnotations.filter(o => !o.equals(a));
+  	if(a._id != null) {
+	  	this.deletedAnnotations.push(a);
+	  }
+	  if(this.deletedAnnotations.length === 0 && this.addedAnnotations.length === 0) {
+	  	this.changed = false;
+	  } else {
+	  	this.changed = true;
+	  }
+  }
+  
+  onSave() {
+  	console.log("added", this.addedAnnotations);
+  	console.log("removed", this.deletedAnnotations);
+  	this.user.updateAnnotations(this.addedAnnotations,this.deletedAnnotations).subscribe(
+  		res => {
+  			this.changed = false;
+  		},
+  		err => {
+  			console.error("could not save code", err);
+  		}
+  	);
+  }	
+  
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-  	console.log("annotations", this.annotationsAfterEdit);
-  	return true;
-    /*if (this.allowEdit && this.code !== this.user.code) {
-		  return confirm('Do you want to discard the changes?');
+		if(this.changed) {
+		  return confirm('Annotations were not saved, do you wish to discard the changes?');
     } else {
     	return true;
-  	}*/
+  	}
 	}
 }

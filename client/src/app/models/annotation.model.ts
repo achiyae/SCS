@@ -21,6 +21,15 @@ class Annotation implements Serializable<Annotation> {
     	this.requirement = input.requirement;
     	return this;
     }
+    
+    equals(other: Annotation): boolean {
+    	if(this._id == null && other._id == null) {
+    		return (this.position === other.position) &&
+				    	 (this.length === other.length) &&
+				    	 (this.requirement === other.requirement);
+    	}
+    	return this._id === other._id;
+    }
 }
 
 export default Annotation;
