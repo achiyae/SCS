@@ -34,6 +34,10 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 
 	setParams(user:PopulatedUser) {
 		this.user = user;
+		this.user.userUpdated.subscribe(function(u) {
+			// no need for this update as the object changes itself
+			//this.updateCurrentRequirement(this.rPositionInArray);
+		});
 		this.code = user.getCode();
     this.domain = user.getDomain();
     this.requirements = this.domain.requirements;
@@ -62,6 +66,7 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
   	if(this.rPositionInArray > 0) {
 	  	this.r_id = this.requirements[this.rPositionInArray-1]._id;
 	  	this.annotations = this.user.getUserCopy().getAnnotations(this.r_id);
+	  	//console.log("extracted annotations", this.r_id);
 	  } else {
 	  	this.r_id = null;
 	  	this.annotations = [];
@@ -96,11 +101,10 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
   }
   
   onSave() {
-  	console.log("added", this.addedAnnotations);
-  	console.log("removed", this.deletedAnnotations);
   	this.user.updateAnnotations(this.addedAnnotations,this.deletedAnnotations).subscribe(
   		res => {
   			this.changed = false;
+  			this.updateCurrentRequirement(String(this.rPositionInArray));
   		},
   		err => {
   			console.error("could not save code", err);

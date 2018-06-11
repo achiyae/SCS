@@ -17,13 +17,13 @@
 
   <div *ngIf="rPositionInArray>0" class="col-md-6 text-xs-center">
     <h3>Your code:</h3>
-    <p 
-    	[appAnnotator]="annotations"
-    	[requirementId]="r_id"
-    	(annotationAdded)="onAnnotationAdded($event)"
-    	(annotationDeleted)="onAnnotationDeleted($event)"
-    	[text]="code"
-    ></p> <!-- this line must stay as is or all annotations will be in an offset-->
+    <pre class="prettyprint"
+	    	[appAnnotator]="annotations"
+  	  	[requirementId]="r_id"
+    		(annotationAdded)="onAnnotationAdded($event)"
+    		(annotationDeleted)="onAnnotationDeleted($event)"
+	    	[text]="code"
+    	></pre><!-- this line must stay as is or all annotations will be in an offset-->
   </div>
 
 </div>

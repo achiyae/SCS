@@ -74,7 +74,8 @@ export class OrmService {
   
   create<T>(type:string, data:T): Observable<T> {
     //returns the observable of http post request 
-    return this.http.post(`${this.api_url+type}`, data) as Observable<T>;
+    return this.http.post(`${this.api_url+type}`, data)
+    	.map(res  => res["data"] as T);
   }
 
   read_query<T>(type:string, query:string): Observable<T[]> {
@@ -101,7 +102,8 @@ export class OrmService {
   update<T>(type:string, data:T): Observable<T> {
     //returns the observable of http put request 
     // console.log("data is ", data);
-    return this.http.put(`${this.api_url+type}/${data["_id"]}`, data) as Observable<T>;
+    return this.http.put(`${this.api_url+type}/${data["_id"]}`, data)
+    	.map(res  => res["data"] as T);
   }
 
   delete<T>(type:string, data:string): Observable<T> {

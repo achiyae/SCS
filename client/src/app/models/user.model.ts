@@ -1,6 +1,6 @@
 //import {EventEmitter, Output} from '@angular/core';
 import { pipe, Observable } from 'rxjs/Rx';
-//import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import Annotation from './annotation.model';
 import Phase from './phase.model';
@@ -37,24 +37,29 @@ class User implements Serializable<User> {
 	}
 	
 	deserialize(input) {
+		//console.log("start deserializing user",input);
 		this._id = input._id;
 		this.email = input.email;
 		this.code = input.code;
 	  this.domain = input.domain;
 	  this.group = input.group;
-	  for(let phase of input.phases) {
-	  	this.phases.push(new Phase().deserialize(phase));
-	  }
-	  for(let annotation of input.annotations) {
-	  	this.annotations.push(new Annotation().deserialize(annotation));
-	  }
+	  if(input.phases) {
+		  for(let phase of input.phases) {
+		  	this.phases.push(new Phase().deserialize(phase));
+		  }
+		}
+		if(input.annotations) {
+		  for(let annotation of input.annotations) {
+		  	this.annotations.push(new Annotation().deserialize(annotation));
+		  }
+		}
 	  return this;
 	}
 	
 	getAnnotations(r_id: string): Annotation[] {
 		var ans:Annotation[]=[];
 		for (let a of this.annotations) {
-			if(a._id === r_id) {
+			if(a.requirement === r_id) {
 				ans.push(a);
 			}
 		}
@@ -85,7 +90,8 @@ class User implements Serializable<User> {
   }
   
   save(orm: OrmService): Observable<User> {
-  	return orm.update<User>("user", this);
+  	return orm.update<User>("user", this).pipe(
+  	  map(val => new User().deserialize(val)));
   }
 }
 

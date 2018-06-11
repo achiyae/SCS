@@ -69,15 +69,16 @@ class PopulatedUser {
   	for(let a of removed) {
   		u.annotations = u.annotations.filter(o => !o.equals(a));
   	}
+  	const t = this;
   	return u.save(this.orm).pipe(
 			tap(
 			  res => { 
-			  	this.user = res;
-			  	this.userUpdated.emit(this); 
+			  	t.user = res;
+			  	t.userUpdated.emit(t); 
 			  },
       	err => { console.error("error saving user",this); }
      	),
-     	map(val => this)
+     	map(val => t)
     );
   }
   
@@ -97,14 +98,8 @@ class PopulatedUser {
   static register(orm: OrmService, email: string, password: string): Observable<any> {
     return orm.create<User>('user', orm.createUser(email)).pipe(
     	tap(
-    		res => {
-    			if(res.length>0) {
-    				return new User().deserialize(res);
-    			} else {
-             throw new Error("No such user or bad password");
-          }
-        }
-    ));
+    		res => new User().deserialize(res)
+    	));
   }
 }
 

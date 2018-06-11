@@ -77,6 +77,9 @@ crud.entity('/user/:_id/domain').Read()
 	    cb(err, user.domain);
         });
    });
+   
+crud.entity('/user/:_id/annotation').Read()
+  .pipe(cm.findOne(Model, ['annotations']));
  
 crud.entity('/user/:_id').Update()
   .pipe(cm.updateOne(Model));

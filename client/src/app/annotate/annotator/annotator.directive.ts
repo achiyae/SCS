@@ -20,10 +20,15 @@ export class AnnotatorDirective implements OnChanges {
 	
 	ngOnChanges(change: SimpleChanges) {
 		this.el.nativeElement.innerHTML = this.text;
+		this.redraw();
+		//console.log("req id", this.requirementId);
 	}
 	
 	private redraw() {
-		//var at:string = text;
+		for(let a of this.annotations) {
+			this.setSelectionRange(this.el.nativeElement, a.position, a.position + a.length);
+			this.highlight("yellow");
+		}
 	}
 	
 	@HostListener('mouseup') onMouseUp() {
@@ -31,15 +36,12 @@ export class AnnotatorDirective implements OnChanges {
   	if (window.getSelection) {
 		  range = window.getSelection().getRangeAt(0);
 		  if(range) {
-				//const start:number = range.startOffset;
-				//const end:number = range.endOffset;
-				//console.log(start+" "+end);
-				//if(start < end) {
-					
-					//range.surroundContents(this.highlightNode);
-					this.highlight("yellow");
-				//}
-				//window.getSelection().removeAllRanges();
+		  	const offsetStart = this.v(this.el.nativeElement, range.startContainer)
+	    	const offsetEnd = this.v(this.el.nativeElement, range.endContainer)
+	    	const start = offsetStart+range.startOffset;
+	    	const end = offsetEnd+range.endOffset;
+	    	this.addAnnotation(start,end);
+				this.highlight("yellow");
 			}
 		}
 	}
@@ -60,11 +62,7 @@ export class AnnotatorDirective implements OnChanges {
 	    //sel.removeAllRanges();
 	    //sel.addRange(range);
 	    //const offset = this.getCaretCharacterOffsetWithin(this.el.nativeElement, range) - 1;
-	    const offsetStart = this.v(this.el.nativeElement, range.startContainer)
-	    const offsetEnd = this.v(this.el.nativeElement, range.endContainer)
-	    const start = offsetStart+range.startOffset;
-	    const end = offsetEnd+range.endOffset;
-	    this.addAnnotation(start,end);
+	    
 	  }
 	  // Use HiliteColor since some browsers apply BackColor to the whole block
 	  if (!document.execCommand("HiliteColor", false, colour)) {
@@ -87,11 +85,15 @@ export class AnnotatorDirective implements OnChanges {
 	  	//IE9 and non-IE
 		  try {
 		  	if (!document.execCommand("BackColor", false, colour)) {
+		  		//console.log("here");
 		  		this.makeEditableAndHighlight(colour);
 		  	}
 			} catch (ex) {
+				console.log("ex",ex);
 		  	this.makeEditableAndHighlight(colour)
 			}
+			sel = window.getSelection();
+      sel.removeAllRanges();
 		}	
 	}
 	
