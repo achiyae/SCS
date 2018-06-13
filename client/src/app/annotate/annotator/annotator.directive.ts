@@ -19,12 +19,12 @@ export class AnnotatorDirective implements OnChanges {
 	}
 	
 	ngOnChanges(change: SimpleChanges) {
-		this.el.nativeElement.innerHTML = this.text;
 		this.redraw();
 		//console.log("req id", this.requirementId);
 	}
 	
 	private redraw() {
+		this.el.nativeElement.innerHTML = this.text;
 		for(let a of this.annotations) {
 			this.setSelectionRange(this.el.nativeElement, a.position, a.position + a.length);
 			this.highlight("yellow");
@@ -40,11 +40,30 @@ export class AnnotatorDirective implements OnChanges {
 	    	const offsetEnd = this.v(this.el.nativeElement, range.endContainer)
 	    	const start = offsetStart+range.startOffset;
 	    	const end = offsetEnd+range.endOffset;
-	    	this.addAnnotation(start,end);
-				this.highlight("yellow");
+	    	if(start === end) {
+	    		this.intersects(start).forEach( (item, index) => { this.removeAnnotation(item); });
+	    		this.redraw();
+				} else {
+					this.addAnnotation(start,end);
+					this.highlight("yellow");
+				}
 			}
 		}
 	}
+	
+	private intersects(index: number): Annotation[] {
+		return this.annotations.filter(a => (a.position <= index) && (a.position + a.length > index));
+	}
+	
+	private removeAnnotation(a: Annotation) {
+		this.annotations.forEach( (item, index) => {
+		 	if(item === a) {
+		 		this.annotations.splice(index,1);
+		 		this.annotationDeleted.emit(a);
+		 	}
+		});
+	}
+	
 	
 	private addAnnotation(start:number, end:number) {
 		const a:Annotation = new Annotation(start, end-start, this.requirementId);
