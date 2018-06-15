@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./done.component.css']
 })
 export class DoneComponent implements OnInit {
+  private source: string = '';
 
   constructor() { }
 

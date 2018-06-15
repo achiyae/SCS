@@ -29,6 +29,7 @@ const appRoutes: Routes = [
     {path: ':id', canActivate: [AuthGuard], component: CodeAnnotationComponent},
    ] },*/
   { path: 'user', component: UserComponent },
+  { path: 'done', component: DoneComponent }
 ];
 
 
