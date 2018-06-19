@@ -18,7 +18,7 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
   private code: string;
 	private user: PopulatedUser;
 	private domain: Domain;
-  
+
   constructor(private db: OrmService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
@@ -26,13 +26,13 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
     this.db.userChanged.subscribe(function(user) {
     	comp.setParams(user);
     });
-    
+
     this.setParams(this.db.getCurrentUser());
   }
-  
+
   setParams(user:PopulatedUser) {
 		this.user = user;
-		if(user) {			
+		if(user) {
 			this.code = user.getUser().code;
 			this.domain = user.getDomain();
 			if (user.getUser().code) {
@@ -45,7 +45,7 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
 			this.allowEdit = false;
 		}
 	}
-  
+
   onSave() {
   	//TODO: add are you sure message.
   	this.user.setCode(this.code).subscribe(
@@ -53,7 +53,7 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
   			this.allowEdit = false;
   			//add note that it was saved successfully
   		},
-  		err => { 
+  		err => {
   			console.error("could not save code", err);
   			this.user.getUser().code = undefined;
   			//add error note
@@ -64,12 +64,16 @@ export class CodeComponent implements OnInit, CanComponentDeactivate {
   onNext() {
     this.router.navigate(['/annotate/0']);
   }
-  
+
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
     if (this.allowEdit && this.code !== this.user.getUser().code) {
       return confirm('Do you want to discard the changes?');
     } else {
       return true;
     }
+  }
+
+  onEdit() {
+    this.allowEdit = true;
   }
 }

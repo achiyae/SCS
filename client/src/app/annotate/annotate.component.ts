@@ -48,14 +48,14 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
   	this.orm.userChanged.subscribe(function(user) {
   		this.setParams(user);
     });
-        
+
     this.route.params.subscribe(
       (params: Params) => {
       	this.updateCurrentRequirement(params['id']);
       }
     );
   }
-  
+
   private updateCurrentRequirement(position: string) {
   	this.rPositionInArray = +position;
   	this.deletedAnnotations = [];
@@ -70,24 +70,29 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 	  } else {
 	  	this.r_id = null;
 	  	this.annotations = [];
-	  	
+
 	  }
   }
 
   getRequirement(): Requirement {
   	return this.requirements[this.rPositionInArray-1];
   }
-  
+
   onNext() {
   	//console.log("code", this.user.getCode());
     this.router.navigate(['/annotate', this.rPositionInArray + 1]);
   }
-  
+
+  onPrev() {
+    //console.log("code", this.user.getCode());
+    this.router.navigate(['/annotate', this.rPositionInArray - 1]);
+  }
+
   onAnnotationAdded(a) {
   	this.addedAnnotations.push(a);
   	this.changed = true;
   }
-  
+
   onAnnotationDeleted(a) {
   	this.addedAnnotations = this.addedAnnotations.filter(o => !o.equals(a));
   	if(a._id != null) {
@@ -99,7 +104,7 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
 	  	this.changed = true;
 	  }
   }
-  
+
   onSave() {
   	this.user.updateAnnotations(this.addedAnnotations,this.deletedAnnotations).subscribe(
   		res => {
@@ -110,8 +115,8 @@ export class AnnotateComponent implements OnInit, CanComponentDeactivate {
   			console.error("could not save code", err);
   		}
   	);
-  }	
-  
+  }
+
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
 		if(this.changed) {
 		  return confirm('Annotations were not saved, do you wish to discard the changes?');

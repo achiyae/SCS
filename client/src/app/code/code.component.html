@@ -8,6 +8,7 @@
     <div class="form-group">
       <textarea class="form-control" [disabled]="!allowEdit" rows="20" [(ngModel)]="code"></textarea>
       <button class="btn" [disabled]="!allowEdit"(click)="onSave()">Save Code</button>
+      <button class="btn" (click)="onEdit()">Edit Code</button>
     </div>
     <hr>
   </div>

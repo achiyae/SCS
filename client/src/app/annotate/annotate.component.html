@@ -29,7 +29,8 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <button class="btn btn-primary" (click)="onNext()">Next</button>
-    <button class="btn" [disabled]="!changed" (click)="onSave()">Save Code</button>
+    <button class="btn btn-primary" (click)="onPrev()">Previous</button>
+    <button class="btn btn-primary" (click)="onNext() && onSave()">Next</button>
+    <!--<button class="btn" [disabled]="!changed" (click)="onSave()">Save Code</button>-->
   </div>
 </div>
